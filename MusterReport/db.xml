@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<dataset1>
+  <Config>
+    <Refresh_Sec>30</Refresh_Sec>
+    <RefreshOnStartup>False</RefreshOnStartup>
+    <LegendOnStartup>True</LegendOnStartup>
+    <Employee_BackColor>#A5FF8A</Employee_BackColor>
+    <Employee_ForeColor>Green</Employee_ForeColor>
+    <ERT_BackColor>#FFA74F</ERT_BackColor>
+    <ERT_ForeColor>#804000</ERT_ForeColor>
+    <Contractor_BackColor>#A8E4FF</Contractor_BackColor>
+    <Contractor_ForeColor>#0080C0</Contractor_ForeColor>
+    <Muster_BackColor>Silver</Muster_BackColor>
+    <Muster_ForeColor>Gray</Muster_ForeColor>
+    <Selected_BackColor>Yellow</Selected_BackColor>
+    <Selected_ForeColor>#000000</Selected_ForeColor>
+  </Config>
+</dataset1>

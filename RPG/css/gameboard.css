@@ -1,0 +1,110 @@
+﻿body {
+  background-color: black;
+  margin: 0;
+}
+.gameboard {
+  width: 384px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px;
+  margin: 0px;
+  background-image: url("/rpg/img/grass.gif");
+  /* background-image: url("/img/grass.gif"); */
+}
+img {
+  padding: 0;
+  margin: 0;
+}
+#player1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+#msg-bar {
+  color: yellow;
+}
+.message-board {
+  height: 20px;
+  padding: 4px;
+}
+table {
+  width: 384px;
+  border: 1px solid red;
+  color: white;
+}
+td:nth-child(1) {
+  width: 40px;
+}
+td:nth-child(2) {
+  width: 60px;
+}
+td:nth-child(3) {
+  width: 85px;
+  text-wrap: nowrap;
+}
+input[type="text"] {
+  border: none;
+  background: transparent;
+  color: red;
+  width: 50%;
+}
+#btn-help {
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: gray;
+  }
+}
+.joystick-controls {
+  display: flex;
+  justify-content: space-around;
+  width: 400px;
+  background-color: transparent;
+  margin-top: 10px;
+}
+.navigational-panel {
+  display: flex; 
+  flex-wrap: wrap; 
+  width: 150px;
+}
+.tile {
+  width: 48px;
+  height: 48px;
+}
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+.mt-7 {
+  margin-top: 72px;
+}
+.mt-2_4 {
+  margin-top: 24px;
+}
+
+.up {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.right {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.down {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.left {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+[type="button"] {
+  border: 1px solid red;
+  background-color: rgba(255, 0, 0, 0.5);
+}

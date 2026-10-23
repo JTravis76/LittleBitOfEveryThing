@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CORS Policy Example</title>
+    </head>
+    <body>
+        <input type="text" value="http://localhost:9090/api/aboutme" style="width:400px;" />
+        <h1>GET</h1>
+        <button type="button" onclick="getFetch()">Fetch</button>
+        <button type="button" onclick="getAxios()">Axios</button>
+        <hr />
+        <h1>Preflight</h1>
+        <button type="button" onclick="optionsFetch()">Fetch</button>
+        <button type="button" onclick="optionsAxios()">Axios</button>
+        <hr />
+        <h1>POST</h1>
+        <button type="button" onclick="postFetch()">Fetch</button>
+        <button type="button" onclick="postAxios()">Axios</button>
+        <button type="button" onclick="postGraphqlFetch()">GraphQL-Fetch</button>
+        <button type="button" onclick="postGraphQlAxios()">GraphQL-Axios</button>
+        <hr />
+        <h1>Netcenter JWT</h1>
+        <button type="button" onclick="getJwtAxios()">Get JWT-Axios</button>
+        <button type="button" onclick="getTestJwtAxios()">Test Token-Axios</button>
+
+        <script>
+            var data = {
+                FirstName: "Jeremy",
+                LastName: "Travis"
+            };
+
+            //var url = "http://localhost:8888/api/aboutme";
+            //var url = "http://localhost:50423/api/aboutme";  // FW.Api
+            //var url = "http://localhost:50431/api/aboutme";  // Core.Api
+            //var url = "http://localhost:???/graphql";
+
+            //var url = "http://localhost/cors/api/aboutme";
+            //var url = "http://localhost:9090/api/aboutme";
+            var url = "";
+
+            function getUrl() {
+                var txt = document.getElementsByTagName("input")[0];
+                url = txt.value;
+            }
+
+
+            
+            var getFetch = function() {
+                console.clear();
+                getUrl();
+
+                fetch(url, {
+                    method: "GET",
+                    cache: "no-cache",
+                    mode: "cors",
+                    credentials: 'include',
+                    headers: {
+                        //"Access-Control-Request-Private-Network": "true",
+                        //"Access-Control-Allow-Private-Network": "true"
+                    }
+                })
+                .then(resp => {
+                    if (!resp.ok)                        
+                        console.warn(resp);
+                    else {
+                        console.log(resp);
+                        return resp.json();
+                    }
+                })
+                .then(data => {
+                    if (data !== undefined)
+                        console.log(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+            }
+
+            var postFetch = function() {
+                console.clear();
+                getUrl();
+
+                /* Edge: either credentials: "include" or "same-origin" works .
+                   Chrome: must be "include".
+                */
+                fetch(url, { 
+                    method: "POST", 
+                    cache: "no-cache", 
+                    mode: "cors",
+                    body: JSON.stringify(data),
+                    // headers: new Headers(),
+                    headers: {
+                      'Content-Type': 'application/json',
+                      // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    credentials: "include"//"same-origin"  
+                })
+                .then(resp => {
+                    if (!resp.ok)                        
+                        console.warn(resp);
+                    else {
+                        console.log(resp);
+                        return resp.text();
+                    }
+                })
+                .then(data => {
+                    if (data !== undefined)
+                        console.log(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+            }
+
+            var optionsFetch = function() {
+                console.clear();
+                getUrl();
+
+                fetch(url, { 
+                    method: "OPTIONS", 
+                    cache: "no-cache", 
+                    mode: "cors",
+                    headers: {
+                        'Origin': 'http://localhost:8080',
+                        'Content-Type': 'application/json',
+                        'Access-Control-Request-Method': 'POST',
+                        'Access-Control-Request-Headers': 'content-type'
+                    },
+                    credentials: "same-origin" 
+                })
+                .then(resp => {
+                    console.log(resp);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            }
+            
+            var postGraphqlFetch = function() {
+                console.clear();
+                getUrl();
+
+                let gql = {
+                    query: "query AboutMe{aboutMe{userInfo{Title Bio}roles user{Id,Fullname,Badge,Email,Phone,NtUsername,AdsCreateDate}}}",
+                    variables: null,
+                    operationName: ""
+                };
+
+                fetch(url, { 
+                    method: "POST", 
+                    cache: "no-cache", 
+                    mode: "cors",
+                    body: JSON.stringify(gql),
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    credentials: "include"  
+                })
+                .then(resp => {
+                    if (!resp.ok) {
+                        console.warn(resp);
+                        return resp;
+                    }
+                    else {
+                        console.log(resp);
+                        return resp.json();
+                    }
+                })
+                .then(data => {
+                    if (data !== undefined)
+                        console.log(data);
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+            }
+
+            function getAxios() {
+                console.clear();
+                getUrl();
+
+                /*== NOTE: using this header will break CORS ==*/
+                //axios.defaults.headers.common = { 'Access-Control-Allow-Origin': '*' };
+                axios.defaults.withCredentials = true;
+
+                const config = {
+                    url: url,
+                    method: "GET",
+                    //withCredentials: true
+                };
+
+                axios(config)
+                .then(resp => {
+                    console.log(resp);
+                    console.log(resp.data);
+                });
+            }
+
+            function postAxios() {
+                console.clear();
+                getUrl();
+
+                axios.defaults.withCredentials = true;                
+
+                const config = {
+                    url: url,
+                    method: "POST",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                axios(config)
+                .then(resp => {
+                    console.log(resp);
+                    console.log(resp.data);
+                });
+            }
+
+            function postGraphQlAxios() {
+                console.clear();
+                getUrl();
+
+                //axios.defaults.headers.common = { "Authorization": "Negotiate oXcwdaADCgEBoloEWE5UTE1TU1AAAwAAAAAAAABYAAAAAAAAAFgAAAAAAAAAWAAAAAAAAABYAAAAAAAAAFgAAAAAAAAAWAAAABXCiOIKAGNFAAAAD9qWv74D2GdRIAHGzv6cb0ejEgQQAQAAALnqqRq56OkVAAAAAA=="};
+                axios.defaults.withCredentials = true;   
+
+                const gql = {
+                    query: "query AboutMe{aboutMe{userInfo{Title Bio}roles user{Id,Fullname,Badge,Email,Phone,NtUsername,AdsCreateDate}}}",
+                    variables: null,
+                    operationName: ""
+                }           
+
+                const config = {
+                    url: url,
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                axios(config)
+                .then(resp => {
+                    console.log(resp);
+                    console.log(resp.data);
+                });
+            }
+
+            function getJwtAxios() {
+                console.clear();
+
+                /*== NOTE: using this header will break CORS ==*/
+                //axios.defaults.headers.common = { 'Access-Control-Allow-Origin': '*' };
+                //axios.defaults.withCredentials = true;
+
+                const config = {
+                    url: "http://netcenterapidev/netcenter/Authentication/GetUserToken",
+                    method: "GET",
+                    withCredentials: true
+                };
+
+                axios(config)
+                .then(resp => {
+                    console.log(resp);
+                    console.log(resp.data);
+                }).catch(e => {
+                    console.error(e);
+                });
+            }
+
+            function getTestJwtAxios() {
+                console.clear();
+
+                /*== NOTE: using this header will break CORS ==*/
+                //axios.defaults.headers.common = { 'Access-Control-Allow-Origin': '*' };
+                //axios.defaults.withCredentials = true;
+
+                const config = {
+                    url: "http://netcenterapidev/netcenter/Authentication/TestToken",
+                    method: "POST",
+                    withCredentials: true,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkREUE9SVFNcXEtESiIsIm5iZiI6MTU4OTQ5MDcxNCwiZXhwIjoxNTkwMDk1NTE0LCJpYXQiOjE1ODk0OTA3MTR9.gka5CnlqJO6TkYX1KkmfF6NrHlH0Ia5XMSlWrvtYcgg"
+                    }
+                };
+
+                axios(config)
+                .then(resp => {
+                    console.log(resp);
+                    console.log(resp.data);
+                }).catch(e => {
+                    console.error(e);
+                });
+            }
+        </script>
+
+        <script src="./axios.min.js"></script>
+    </body>
+</html>

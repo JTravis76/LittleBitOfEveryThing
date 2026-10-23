@@ -1,0 +1,1063 @@
+<html>
+<head>
+    <title>The Mini Adventure of Jeremiah</title>
+    <style type="text/css">
+        .absoluteWrap {
+            position: absolute;
+        }
+
+        .relativeWrap {
+            position: relative;
+        }
+
+        .total {
+            color: red;
+        }
+
+        .msg {
+            color: yellow;
+        }
+    </style>
+</head>
+<body bgcolor="black" leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" onLoad="init()">
+
+    <div id="player1" name="player1" style="position:absolute;top:0;left:0;z-index:2;">
+        <img name="player1icon" src="img/guy_right.gif" width="31" height="31">
+    </div>
+
+<script>
+  //*INITIAL GLOBAL VARIABLE FOR MAP & LOAD MAP.JS TO SET MAP VALUES*//
+  scrn = new Array();
+</script>
+
+<script src="js/map.js"></script>
+
+<noscript>
+  <B>Your browser has JavaScript turned off.</B><BR>
+  You will experience a more enjoyable time at this Web site if you turn JavaScript on.
+  <HR>
+</noscript>
+
+<script>
+  //*isNS is true if the browser is Netscape, false if it is Internet Explorer*//
+  isIE = (document.all) ? 1 : 0;
+  isNS = (!document.getElementById && document.layers) ? 1 : 0;
+  isNS6 = (!document.all && document.getElementById) ? 1 : 0;
+
+  //set browser to capture keystrokes
+  if (isNS || isNS6) window.captureEvents(Event.KEYPRESS);
+  if (isNS || isNS6) document.captureEvents(Event.KEYPRESS);
+  window.onkeypress = getkeypress;
+  document.onkeypress = getkeypress;
+
+  //*GLOBAL VARABLES*//
+  rows       = 12;     //number of table rows and columns
+  iconsize   = 31;     //size of each grid cell
+  p1CurX     = 0;      //player1 current x position
+  p1CurY     = 0;      //player1 current y position
+  p1x        = 0;      //player1 x movement
+  p1y        = 0;      //player1 y movement
+  map        = 0;      //current screen
+  p1PreX     = 0;      //player1 previous X position
+  p1PreY     = 0;      //player1 previous Y position
+  tmpType    = "";     //HOLDS THE MAP ICON-TYPE CELL VALUE
+  actionType = 0;      //HOLDS THE ACTION TYPE FROM THE MAP ICON-TYPE CELL
+  curMap     = 0;      //HOLDS THE CURRENT MAP #, SO WHEN WE RETURN FROM FIGHT SCENE
+  enemyLevel = 0;      //HOLDS THE CURRENT ENEMY ATTACK/DEFEND LEVEL
+  enemyHP    = 0;      //HOLDS THE ENEMY CURRENT HIT POINTS
+  p1Level    = 1;      //HOLDS THE PLAYER1 ATTACK/DEFEND LEVEL
+  p1HP       = 100;    //HOLDS THE PLAYER1 HIT POINTS
+  p1Gold     = 10;     //HOLDS THE PLAYER1 GOLD POINTS
+  p1Exper    = 0;      //HOLDS THE PLAYER1 EXPERIENCE POINTS
+  AXE        = 0;      //TELLS IF PLAYER1 FOUND THE AXE    -11
+  TORCH      = 0;      //TELLS IF PLAYER1 FOUND THE TORCH  -12
+  FLUTE      = 0;      //TELLS IF PLAYER FOUND THE FLUTE   -13
+  YELLOW_KEY = 0;      //TELLS IF PLAYER1 FOUND THE YELLOW KEY  -14
+  RED_KEY    = 0;      //TELLS IF PLAYER1 FOUND THE RED KEY    -15
+  HALF_HERB  = 0;      //TELLS IF PLAYER1 FOUND THE HALF HERB  -16
+  FULL_HERB  = 0;      //TELLS IF PLAYER1 FOUND THE FULL HERB  -17
+  BOTTLE     = 0;      //TELLS IF PLAYER1 FOUND THE BOTTLE  -18
+  WATER      = 0;      //TELLS IF PLAYER1 FOUND THE WATER  -19
+  SWORD      = 0;
+  SHIELD     = 0;
+
+var scrnMsg = new setStatusmessage()
+var running = true;
+var timerID = null
+var counter = 0;
+
+  //*DRAW THE MAP GRID*//
+  document.write('<table background="img/grass.gif" cellspacing="0" cellpadding="0" border="0">');
+  for (i=0; i<rows; i++) {
+      document.write(' <tr>');
+      for (j=0; j<rows; j++) {
+          document.write('<td><img name="r' + i + 'c' + j + '" src="no.gif"></td>');
+      }
+      document.write(' </tr>');
+   }
+   document.write('</table>');
+
+  //*INITALIZE EMPTY ARRAY TO STROE THE TYPE OF EACH MAP CELL*//
+  iconType = new Array(rows);
+  for (i=0; i<rows; i++) {
+      iconType[i] = new Array(rows);
+  }
+
+  //p1 is a reference to the <div> player1*//
+  if (isNS) p1 = document.player1;
+     else if (isNS6) p1 = document.getElementById("player1").style;
+     else if (isIE) p1 = document.all.player1.style;
+
+  //p1icon is a reference to the player image icon
+  if (isNS) p1icon = document.player1.document.player1icon;
+     else if (isNS6) p1icon = document.getElementById("player1").getElementsByTagName("img")[0];
+     else if (isIE) p1icon = document.all.player1icon;
+
+  setstart(); //sets player starting position on map
+  showmap();  //draws the map
+
+  //*EVERY 100 MILISECONDS, CALL THE ANIMATE FUNCTION*//
+  setInterval('animate()',100);
+
+  function setstart() {
+    //set player starting position on map
+    p1icon.src = "img/guy_right.gif";
+    p1CurX = 2;
+    p1CurY = 5;
+  
+    p1.left = p1CurX * iconsize;
+    p1.top = p1CurY * iconsize;
+  }
+
+  function showmap() {
+    //the function 'split()' creates an array from a string, separating on the given character
+    //see this url for more info: http://developer.netscape.com/docs/manuals/communicator/jsref/corea2.htm#1013764
+ 
+    for(i=0; i <= rows-1; i++) {  //for each line in scrn
+        for(j=0; j <= rows-1; j++) { //for each graphic in the scrn line
+            //change the image in the table row and column to use the specified graphic
+            if (scrn[map].split("\n")[i].split(";")[j*2] != "") { //if there is a graphic specified
+                eval('document.r' + i + 'c' + j + '.src="img/' + scrn[map].split("\n")[i].split(";")[j*2] + '.gif"');
+                } else { //if mising, clear with empty graphic
+                    eval('document.r' + i + 'c' + j + '.src="img/no.gif"');
+                    }
+                    //store the cell type - road, wall, or jump
+                    iconType[i][j] = scrn[map].split("\n")[i].split(";")[(j*2)+1];
+        }
+    }
+  } //END FUNCTION SHOWMAP
+
+  function animate() {
+    //if they moved left or right
+    if (p1x != 0) {
+        if (p1x > 0) p1icon.src = "img/guy_right.gif";
+        if (p1x < 0) p1icon.src = "img/guy_left.gif";
+            //if they won't move off the map
+            if ((p1CurX + p1x >= 0) && (p1CurX + p1x < rows)) {
+                //if the cell type is road (not a wall)
+                if (iconType[p1CurY][(p1CurX * 1) + (p1x * 1)] == 0) {
+                    //change player1's position
+                    p1CurX += p1x;
+                    p1.left = p1CurX * iconsize;
+                } else if (iconType[p1CurY][(p1CurX * 1) + (p1x * 1)].indexOf("2") == 0) {
+                    //jump to new screen
+                    doJump(iconType[p1CurY][(p1CurX * 1) + (p1x * 1)]);
+                } else if (iconType[p1CurY][(p1CurX * 1) + (p1x * 1)].indexOf("4") == 0) {
+                    //change player1's position
+                    p1CurX += p1x;
+                    p1.left = p1CurX * iconsize;
+                } else if (iconType[p1CurY][(p1CurX * 1) + (p1x * 1)].indexOf("5") == 0) {
+                    //change player1's position
+                    p1CurX += p1x;
+                    p1.left = p1CurX * iconsize;
+                    // CALL ON FUNCTION
+                    FightScene()
+                }
+            }
+            //clear the x movement so they don't keep moving again and again
+            p1x = 0;
+    }//END IF (p1x != 0)
+ 
+    //if they moved up or down
+    if (p1y != 0) {
+        if (p1y > 0) p1icon.src = "img/guy_front.gif";
+        if (p1y < 0) p1icon.src = "img/guy_back.gif";
+        //if they won't move off the map
+        if ((p1CurY + p1y >= 0) && (p1CurY + p1y < rows)) {
+            //if the cell type is road (not a wall)
+            if (iconType[(p1CurY * 1) + (p1y * 1)][p1CurX] == 0) {
+                //change player1's position
+                p1CurY += p1y;
+                p1.top = p1CurY * iconsize;
+            } else if (iconType[(p1CurY * 1) + (p1y * 1)][p1CurX].indexOf("2") == 0) {
+                //jump to new screen
+                doJump(iconType[(p1CurY * 1) + (p1y * 1)][p1CurX]);
+            } else if (iconType[(p1CurY * 1) + (p1y * 1)][p1CurX].indexOf("4") == 0) {
+                //change player1's position
+                p1CurY += p1y;
+                p1.top = p1CurY * iconsize;
+            } else if (iconType[(p1CurY * 1) + (p1y * 1)][p1CurX].indexOf("5") == 0) {
+                //change player1's position
+                p1CurY += p1y;
+                p1.top = p1CurY * iconsize;
+                // CALL ON FUNCTION
+                FightScene()
+            }
+        }
+        //clear the y movement so they don't keep moving again and again
+        p1y = 0;
+    }//END IF (p1Y != 0)
+  }//END ANIMATE()
+
+  function doJump(tmpType) {  //loads a new map screen
+    map = tmpType.split("-")[1] * 1;
+    p1CurX = tmpType.split('-')[2] * 1;
+    p1CurY = tmpType.split('-')[3] * 1;
+    p1.left = p1CurX * iconsize;
+    p1.top = p1CurY * iconsize;
+    showmap();
+  }
+
+  function useItem() {
+    msg   = "";     //HOLDS THE DISPLAY MESSAGE
+    pImage = "";     //HOLDS THE FILE NAME OF PLAYER1 (EX: guy_left.gif)
+    cellImage = "";  //HOLDS THE FILE NAME OF FACING IMAGE CELL (EX: tree.gif)
+    fileindex = 4;  //HOLDS THE INDEX NUMBER OF THE LAST DIRECTORY OF WHICH img ARE STORED
+    running = true;  //RESET THE TYPEWRITER
+    counter = 0;     //RESET THE TYPEWRITER
+
+    //GET THE FILENAME OF THE CURRENT PLAYER IMAGE,
+    //MAY NEED TO AJUST ARRAY DEPENDING ON THE FILE PATH.
+    pImage = p1icon.src;
+    pImage = pImage.split("/")[fileindex];
+
+    //GET THE IMAGE FILENAME AND ICON-TYPE OF THE FACING CELL
+    if (pImage == "guy_left.gif") {
+       if (p1CurX > 0 ) { // <- MAKE SURE NOT BORDER OF MAP
+          cellImage = eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX - 1) + '.src');
+          tmpType = iconType[(p1CurY * 1)][(p1CurX - 1)];
+       }
+    }
+    if (pImage == "guy_right.gif") {
+       if (p1CurX < (rows - 1) ) { // <- MAKE SURE NOT BORDER OF MAP
+          cellImage = eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX + 1) + '.src');
+          tmpType = iconType[(p1CurY * 1)][(p1CurX + 1)];
+       }
+    }
+    if (pImage == "guy_front.gif") {
+       if (p1CurY < (rows - 1) ) { // <- MAKE SURE NOT BORDER OF MAP
+          cellImage = eval('document.r' + (p1CurY + 1) + 'c' + (p1CurX * 1) + '.src');
+          tmpType = iconType[(p1CurY + 1)][(p1CurX * 1)];
+       }
+    }
+    if (pImage == "guy_back.gif") {
+       if (p1CurY > 0 ) { // <- MAKE SURE NOT BORDER OF MAP
+          cellImage = eval('document.r' + (p1CurY - 1) + 'c' + (p1CurX * 1) + '.src');
+          tmpType = iconType[(p1CurY - 1)][(p1CurX * 1)];
+       }
+    }
+    cellImage = cellImage.split("/")[fileindex];
+    
+    //*DEBUG SECTION*//
+    //alert(pImage);
+    //alert(cellImage);
+    //alert(tmpType);
+
+    //*MAKE SURE IMAGE CAN TAKE A ACTION*//
+    if ((tmpType.split("-")[0] * 1) == 3) {
+       //GET THE ACTION TYPE//
+       actionType = (tmpType.split("-")[1] * 1)
+
+       //IF ITEM# = 0, GRAB MSG TO DISPLAY//
+       if (actionType == 0) {
+          msg = tmpType.split("-")[2];
+          scrnMsg.msg = msg;
+          typewriter();
+
+          if (cellImage == "pincess.gif") {
+             map = 62;
+             showmap();
+             p1CurX = 5;
+             p1CurY = 8;
+             p1.left = p1CurX * iconsize;
+             p1.top = p1CurY * iconsize;
+             p1icon.src = "img/guy_front.gif";
+
+             alert("You save the Kingdom from the Black Knight, Thank you for playing.");
+          }
+       }
+
+       //*IF ITEM# = (1)AXE, CUT FACING TREE*//
+       if (actionType == 1 ) {
+          if (cellImage == "tree.gif" && AXE == 1) {
+             if (pImage == "guy_left.gif") {
+                eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX - 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+                //*CHANGE THE FACING ICON-TYPE SO WE CAN WALK ON IT OR OPEN IT, ETC.*//
+                if (tmpType.split("-")[2] == "cut_tree") {
+                   iconType[(p1CurY * 1)][(p1CurX - 1)] = "0"
+                }
+                if (tmpType.split("-")[2] == "treasure_close") {
+                   iconType[(p1CurY * 1)][(p1CurX - 1)] = "3-2-treasure_open-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "treasure_close2") {
+                   iconType[(p1CurY * 1)][(p1CurX - 1)] = "3-2-treasure_open2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "black_hole") {
+                   iconType[(p1CurY * 1)][(p1CurX - 1)] = "2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4] + "-" +  tmpType.split("-")[5]
+                }
+             }
+             if (pImage == "guy_right.gif") {
+                eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX + 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+                //*CHANGE THE FACING ICON-TYPE SO WE CAN WALK ON IT OR OPEN IT, ETC.*//
+                if (tmpType.split("-")[2] == "cut_tree") {
+                   iconType[(p1CurY * 1)][(p1CurX + 1)] = "0"
+                }
+                if (tmpType.split("-")[2] == "treasure_close") {
+                   iconType[(p1CurY * 1)][(p1CurX + 1)] = "3-2-treasure_open-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "treasure_close2") {
+                   iconType[(p1CurY * 1)][(p1CurX + 1)] = "3-2-treasure_open2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "black_hole") {
+                   iconType[(p1CurY * 1)][(p1CurX + 1)] = "2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4] + "-" +  tmpType.split("-")[5]
+                }
+             }
+             if (pImage == "guy_front.gif") {
+                eval('document.r' + (p1CurY + 1) + 'c' + (p1CurX * 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+                //*CHANGE THE FACING ICON-TYPE SO WE CAN WALK ON IT OR OPEN IT, ETC.*//
+                if (tmpType.split("-")[2] == "cut_tree") {
+                   iconType[(p1CurY + 1)][(p1CurX * 1)] = "0"
+                }
+                if (tmpType.split("-")[2] == "treasure_close") {
+                   iconType[(p1CurY + 1)][(p1CurX * 1)] = "3-2-treasure_open-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "treasure_close2") {
+                   iconType[(p1CurY + 1)][(p1CurX * 1)] = "3-2-treasure_open2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "black_hole") {
+                   iconType[(p1CurY + 1)][(p1CurX * 1)] = "2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4] + "-" +  tmpType.split("-")[5]
+                }
+             }
+             if (pImage == "guy_back.gif") {
+                eval('document.r' + (p1CurY - 1) + 'c' + (p1CurX * 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+                //*CHANGE THE FACING ICON-TYPE SO WE CAN WALK ON IT OR OPEN IT, ETC.*//
+                if (tmpType.split("-")[2] == "cut_tree") {
+                   iconType[(p1CurY - 1)][(p1CurX * 1)] = "0"
+                }
+                if (tmpType.split("-")[2] == "treasure_close") {
+                   iconType[(p1CurY - 1)][(p1CurX * 1)] = "3-2-treasure_open-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "treasure_close2") {
+                   iconType[(p1CurY - 1)][(p1CurX * 1)] = "3-2-treasure_open2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4]
+                }
+                if (tmpType.split("-")[2] == "black_hole") {
+                   iconType[(p1CurY - 1)][(p1CurX * 1)] = "2-" + tmpType.split("-")[3] + "-" + tmpType.split("-")[4] + "-" +  tmpType.split("-")[5]
+                }
+             }
+          } //END TREE
+       }// END ACTION_TYPE(1)
+
+       //IF ITEM# = (2)TREASURE, OPEN FACING TREASURE//
+       if (actionType == 2 ) {
+          if (cellImage == "treasure_close.gif" || cellImage == "treasure_close2.gif") {
+             if (pImage == "guy_left.gif") {
+                eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX - 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+             }
+             if (pImage == "guy_right.gif") {
+                eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX + 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+             }
+             if (pImage == "guy_front.gif") {
+                eval('document.r' + (p1CurY + 1) + 'c' + (p1CurX * 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+             }
+             if (pImage == "guy_back.gif") {
+                eval('document.r' + (p1CurY - 1) + 'c' + (p1CurX * 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+             }
+
+             //*DISPLAY MSG*//
+             msg = tmpType.split("-")[3];
+             scrnMsg.msg = msg;
+             typewriter();
+
+             //*ADD GOLD*//
+             if ((tmpType.split("-")[4] * 1) < 11 || (tmpType.split("-")[4] * 1) > 19) {
+                p1Gold = (tmpType.split("-")[4] * 1) + p1Gold;
+                showTotal('GP',p1Gold);
+             }
+             //*FOUND AXE*//
+	     if ((tmpType.split("-")[4] * 1) == 11) {
+                eval('document.Item3.src="img/axe.gif"');
+                AXE = 1;
+             }
+             //*FOUND TORCH*//
+	     if ((tmpType.split("-")[4] * 1) == 12) {
+                eval('document.Item4.src="img/torch.gif"');
+                TORCH = 1;
+             }
+             //*FOUND FLUTE*//
+	     if ((tmpType.split("-")[4] * 1) == 13) {
+                eval('document.Item5.src="img/flute.gif"');
+                FLUTE = 1;
+             }
+             //*FOUND YELLOW KEY*//
+	     if ((tmpType.split("-")[4] * 1) == 14) {
+                eval('document.Item6.src="img/key.gif"');
+                YELLOW_KEY = 1;
+             }
+             //*FOUND RED KEY*//
+	     if ((tmpType.split("-")[4] * 1) == 15) {
+                eval('document.Item7.src="img/redkey.gif"');
+                RED_KEY = 1;
+             }
+             //*FOUND HALF HERBS*//
+	     if ((tmpType.split("-")[4] * 1) == 16) {
+                eval('document.Item8.src="img/half_herb.gif"');
+                HALF_HERB = 1;
+             }
+             //*FOUND FULL HERBS*//
+	     if ((tmpType.split("-")[4] * 1) == 17) {
+                eval('document.Item9.src="img/full_herb.gif"');
+                FULL_HERB = 1;
+             }
+             //*FOUND BOTTLE*//
+	     if ((tmpType.split("-")[4] * 1) == 18) {
+                eval('document.Item10.src="img/bottle.gif"');
+                BOTTLE = 1;
+             }
+
+         }//END TREASURE
+       }//END ACTION_TYPE(2)
+
+       //*IF ITEM# = (3)FLUTE, SHOW FOUNTAIN*//
+       if (actionType == 3) {
+          if (cellImage == "water_up.gif" && FLUTE == 1) {
+             if (pImage == "guy_back.gif") {
+                msg = "You play the flute and a fountain appear.";
+                scrnMsg.msg = msg;
+                typewriter();
+                eval('document.r' + (p1CurY - 1) + 'c' + (p1CurX * 1) + '.src="img/' + tmpType.split("-")[2] + '.gif"');
+                iconType[(p1CurY - 1)][(p1CurX * 1)] = "3-7"
+             }
+          }//END WATER_RIGHT
+       }//END ACTION_TYPE(3)
+
+       if (actionType == 4) {
+           if (tmpType.split("-")[2] == "axe") {
+              if (confirm("Do you want to buy the AXE for " + tmpType.split("-")[3] * 1 + " gold coins?")) {
+                 if (p1Gold < (tmpType.split("-")[3] * 1)) {
+                    msg = "You do not have enough gold to purchase item.";
+                    scrnMsg.msg = msg;
+                    typewriter();
+                 } else {
+                   p1Gold = p1Gold - (tmpType.split("-")[3] * 1);
+                   showTotal('GP',p1Gold);
+                   eval('document.Item3.src="img/axe.gif"');
+                   msg = "Thank you for your purchase.";
+                   scrnMsg.msg = msg;
+                   typewriter();
+                   AXE = 1;
+                   }
+              }
+           }//END AXE
+           if (tmpType.split("-")[2] == "bronze_sword") {
+              if (confirm("Do you want to buy the BRONZE SWORD for " + tmpType.split("-")[3] * 1 + " gold coins?")) {
+                  if (p1Gold < (tmpType.split("-")[3] * 1)) {
+                    msg = "You do not have enough gold to purchase item.";
+                    scrnMsg.msg = msg;
+                    typewriter();
+                 } else {
+                   p1Gold = p1Gold - (tmpType.split("-")[3] * 1);
+                   showTotal('GP',p1Gold);
+                   eval('document.Item1.src="img/bronze_sword.gif"');
+                   p1Level = p1Level + 1;
+                   showTotal('Level',p1Level);
+                   msg = "Thank you for your purchase.";
+                   scrnMsg.msg = msg;
+                   typewriter();
+                   SWORD = 1;
+                 }
+              }
+           }//END BRONZE_SWORD
+           if (tmpType.split("-")[2] == "bronze_shield") {
+              if (confirm("Do you want to buy the BRONZE SHIELD for " + tmpType.split("-")[3] * 1 + " gold coins?")) {
+                  if (p1Gold < (tmpType.split("-")[3] * 1)) {
+                    msg = "You do not have enough gold to purchase item.";
+                    scrnMsg.msg = msg;
+                    typewriter();
+                 } else {
+                   p1Gold = p1Gold - (tmpType.split("-")[3] * 1);
+                   showTotal('GP',p1Gold);
+                   eval('document.Item2.src="img/bronze_shield.gif"');
+                   p1Level = p1Level + 1;
+                   showTotal('Level',p1Level);
+                   msg = "Thank you for your purchase.";
+                   scrnMsg.msg = msg;
+                   typewriter();
+                   SHIELD = 1;
+                 }
+              }
+           }//END BRONZE_SWORD
+           if (tmpType.split("-")[2] == "half_herb") {
+              if (confirm("Do you want to buy the HALF HERB for " + tmpType.split("-")[3] * 1 + " gold coins?")) {
+                  if (p1Gold < (tmpType.split("-")[3] * 1)) {
+                    msg = "You do not have enough gold to purchase item.";
+                    scrnMsg.msg = msg;
+                    typewriter();
+                 } else {
+                   p1Gold = p1Gold - (tmpType.split("-")[3] * 1);
+                   showTotal('GP',p1Gold);
+                   eval('document.Item8.src="img/half_herb.gif"');
+                   msg = "Thank you for your purchase.";
+                   scrnMsg.msg = msg;
+                   typewriter();
+                   HALF_HERB = 1;
+                 }
+              }
+           }//END BRONZE_SHIELD
+           if (tmpType.split("-")[2] == "rest") {
+              if (confirm("Do you want to rest for " + tmpType.split("-")[3] * 1 + " golds?")) {
+                  if (p1Gold < (tmpType.split("-")[3] * 1)) {
+                    msg = "You do not have enough gold to purchase item.";
+                    scrnMsg.msg = msg;
+                    typewriter();
+                 } else {
+                   p1Gold = p1Gold - (tmpType.split("-")[3] * 1);
+                   showTotal('GP',p1Gold);
+                   p1HP = 100;
+                   showTotal('HPs',p1HP);
+                   msg = "Thank you for your purchase.";
+                   scrnMsg.msg = msg;
+                   typewriter();
+                 }
+              }
+           }//END BRONZE_SHIELD
+       }// END ACTIONTYPE(4)
+
+       if (actionType == 5) {   //Attack,points
+          GD = 0;
+          Defeat = 0;
+          MAX = 0;
+
+          if (p1Level < 3) {
+             MAX = 3;
+           } else {
+               MAX = p1Level; 
+          }
+
+          day = new Date()
+          z = day.getTime()
+          y = (z - (parseInt(z/1000,10) * 1000))/10
+          AP = parseInt(y/100*MAX,10) + 1
+          
+          if (SWORD == 1) AP + 10;
+
+          if (enemyHP > 0) {
+             msg = "You attack the enemy with " + AP + " attack point.";
+             scrnMsg.msg = msg;
+             typewriter();
+             enemyHP = (enemyHP - AP);
+             showTotal('EHP',enemyHP);
+          }
+          if (enemyHP <= 0) {
+             msg += " You defeat the enemy.";
+             scrnMsg.msg = msg;
+             typewriter();
+             Defeat = 1;
+             //MAKE THE ENEMY DISAPPER
+             eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX + 2) + '.src="img/block2.gif"');
+             iconType[(p1CurY * 1)][(p1CurX + 1)] = "0"
+
+             //Figure how much gold & experience to give//
+             day = new Date()
+             z = day.getTime()
+             y = (z - (parseInt(z/1000,10) * 1000))/10
+             GD = parseInt(y/100*(p1Level+2),10) + 1
+
+             day = new Date()
+             z = day.getTime()
+             y = (z - (parseInt(z/1000,10) * 1000))/10
+             x = parseInt(y/100*(p1Level+1),10) + 1
+
+             msg += " You earn " + GD + " Golds and " + x + " Experiences.";
+             scrnMsg.msg = msg;
+             typewriter();
+             p1Gold = (p1Gold + GD);
+             p1Exper = (p1Exper + x);
+
+             if (p1Level <= 3 && p1Exper >= 30) {
+                 alert("You advance to the next level.");
+                 p1Level = p1Level + 1;
+                 p1Exper = 0;
+                 showTotal('Level',p1Level);
+             } else if (p1Level > 3 && p1Level <= 6 && p1Exper >= 60) {
+                    alert("You advance to the next level.");
+                    p1Level = p1Level + 1;
+                    p1Exper = 0;
+                    showTotal('Level',p1Level);
+             } else if (p1Level > 6 && p1Level <= 9 && p1Exper >= 90) {
+                    alert("You advance to the next level.");
+                    p1Level = p1Level + 1;
+                    p1Exper = 0;
+                    showTotal('Level',p1Level);
+             } else if (p1Level >= 10 && p1Exper >= 100) {
+                    alert("You advance to the next level.");
+                    p1Level = p1Level + 1;
+                    p1Exper = 0;
+                    showTotal('Level',p1Level);
+             }
+             showTotal('EPs',p1Exper);
+             showTotal('GP',p1Gold);
+          }
+
+	  if (!Defeat) {
+             day = new Date()
+             z = day.getTime()
+             y = (z - (parseInt(z/1000,10) * 1000))/10
+             x = parseInt(y/100*MAX,10) + 1
+             
+             if (SHIELD == 1) x - 5;
+             if (x <= 0) x = 1;
+
+   	     msg += " Enemy attack you with " + x + " attack point.";
+             scrnMsg.msg = msg;
+             typewriter();
+   	     p1HP = (p1HP - x);
+   	     showTotal('HPs',p1HP);
+   	     if (p1HP <= 0) {
+                 p1icon.src = "img/block2.gif";
+   	         if (confirm("The enemy defeated you! Would you like to play again?")) {
+   	            location.reload(true)
+   	         } else {
+   	            alert("Thank You for playing, Please visit soon.");
+                       location.href = 'http://localhost/'
+                       //newWindow.location.href
+                 }
+             }
+          }
+       }//END IF ACTIONTYPE(5)
+
+       if (actionType == 6) {
+           //USE GOLDEN KEY TO OPEN FENCE//
+           if (cellImage == "fence.gif" && YELLOW_KEY == 1) {
+               msg = "You use the golden key to open the gate.";
+               scrnMsg.msg = msg;
+               typewriter();
+               eval('document.r' + (p1CurY - 1) + 'c' + (p1CurX * 1) + '.src="img/block2.gif"');
+               iconType[(p1CurY - 1)][(p1CurX * 1)] = "0";
+           }
+       }
+       if (actionType == 7) {
+           if (cellImage == "water_foundtain.gif" && BOTTLE == 1) {
+               msg = "You fill the bottle with water from the fountain.";
+               scrnMsg.msg = msg;
+               typewriter();
+               eval('document.Item10.src="img/water_bottle.gif"');
+               WATER = 1;
+           }                 	
+       }
+       if (actionType == 8) {
+           if (cellImage == "foundtain1.gif" && WATER == 1) {
+               msg = "You fill the fountain with bottle water.";
+               scrnMsg.msg = msg;
+               typewriter();
+               eval('document.Item10.src="img/bottle.gif"');
+               WATER = 0;
+               if (pImage == "guy_left.gif") {
+                  eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX - 1) + '.src="img/foundtain2.gif"');
+               }
+               if (pImage == "guy_right.gif") {
+                  eval('document.r' + (p1CurY * 1) + 'c' + (p1CurX + 1) + '.src="img/foundtain2.gif"');
+               }
+               if (pImage == "guy_front.gif") {
+                  eval('document.r' + (p1CurY + 1) + 'c' + (p1CurX * 1) + '.src="img/foundtain2.gif"');
+               }
+               if (pImage == "guy_back.gif") {
+                  eval('document.r' + (p1CurY - 1) + 'c' + (p1CurX * 1) + '.src="img/foundtain2.gif"');
+               }
+               eval('document.r' + (1) + 'c' + (10) + '.src="img/black_hole.gif"');
+               iconType[(1)][(10)] = "2-51-3-2";
+           }                 	
+       }
+       if (actionType == 9) {
+           //USE RED KEY TO OPEN CASTLE GATE//
+           if (cellImage == "gate.gif" && RED_KEY == 1) {
+               msg = "You use the red key to open the Castle gate.";
+               scrnMsg.msg = msg;
+               typewriter();
+               eval('document.r' + (p1CurY - 1) + 'c' + (p1CurX * 1) + '.src="img/wall2.gif"');
+               iconType[(p1CurY - 1)][(p1CurX * 1)] = "0";
+           }
+       }
+    }// END IF ACTION(3)
+
+    //IF CELL IS TYPE(4), SEE README.TXT FOR DETAILS//
+    if ((tmpType.split("-")[0] * 1) == 4) {
+       //GET THE ACTION TYPE//
+       actionType = (tmpType.split("-")[1] * 1)
+
+       if (actionType == 0 && TORCH == 1) {    //Torch & Jump to new Map
+          msg = "You use the torch to light the cave.";
+          scrnMsg.msg = msg;
+          typewriter();
+          map = tmpType.split("-")[2] * 1;
+          showmap();
+       }
+    }// END IF ACTION(4)
+
+    if(msg == "") {
+      scrnMsg.msg = msg;
+      typewriter();
+    }
+  } //END USEITEM FUNCTION
+
+  function setStatusmessage() {
+    this.msg = ""
+    this.pos = 100       //  how wide is the scroller?
+    this.delay = 80      //  milliseconds between shifts
+  }
+
+  function typewriter() {
+    if(running) {
+      //window.status = scrnMsg.msg.substr(0,counter)
+      DisplayMsg('Msgs',scrnMsg.msg.substr(0,counter));
+
+      timerID = setTimeout ("typewriter()",scrnMsg.delay)
+      counter++;
+
+     if(counter >= (scrnMsg.msg.length + 1)) {
+	running = false;
+        clearTimeout(timerID)
+     }
+    }
+  }
+
+  function FightScene() {
+    //*GET THE CURRENT CELL TYPE*//
+    tmpType = iconType[(p1CurY * 1)][(p1CurX * 1)];
+
+    //IF CELL IS TYPE(5), SEE README.TXT FOR DETAILS//
+    if ((tmpType.split("-")[0] * 1) == 5) {
+       //GET THE ACTION TYPE//
+       actionType = (tmpType.split("-")[1] * 1)
+
+       if (actionType == 0) {    //Jump to fight scene
+          //COPY CURRENT X & Y POSITION, MAP
+          p1PreX = p1CurX;
+          p1PreY = p1CurY;
+          curMap = map;
+
+          rnd = p1Level + 5;
+          day = new Date()
+          z = day.getTime()
+          y = (z - (parseInt(z/1000,10) * 1000))/10
+          x = parseInt(y/100*rnd,10) + 1
+          if (x < 3 && p1Level < 3) x = 3;
+          enemyHP = x;
+
+          map = tmpType.split("-")[2] * 1;
+          //WHEN FIGHTING MAIN BOSS
+          if (map == 60) {
+             alert("If you want to save the princess, You must defeat me!!");
+             enemyHP = 100;
+          }
+          showmap();
+          p1icon.src = "img/guy_right.gif";
+          p1CurX = 5;
+          p1CurY = 6;
+          p1.left = p1CurX * iconsize;
+          p1.top = p1CurY * iconsize;
+
+          showTotal('EHP',enemyHP);
+       }
+       if (actionType == 1) {    //Return to current map
+          map = curMap;
+          showmap();
+          p1CurX = p1PreX;
+          p1CurY = p1PreY;
+          p1.left = p1CurX * iconsize;
+          p1.top = p1CurY * iconsize;
+          
+          enemyHP = 0;
+          showTotal('EHP',enemyHP);
+       }
+
+    }//END IF ACTION(5)
+  }//END FIGHTSCENE
+
+  function HowTo() {
+   var newWindow
+   newWindow = window.open("../RPG/how_to.htm","","status,height=600,width=600,resizable,scrollbars")
+   newWindow.document.location.href ='../RPG/how_to.htm'
+  }
+
+  function useHerb() {
+    if (HALF_HERB == 1 && FULL_HERB == 1) {
+        if (confirm("Click OK to use the FULL Herb. Cancel to use HALF Herb.")) {
+            p1HP = 100;
+            eval('document.Item9.src="img/no.gif"');
+            FULL_HERB = 0;
+        } else {
+          p1HP = p1HP + 50;
+          if (p1HP > 100) {
+             p1HP = 100;
+          }
+          eval('document.Item8.src="img/no.gif"');
+          HALF_HERB = 0;
+        }
+    } else if (HALF_HERB == 1) {
+      p1HP = p1HP + 50;
+      if (p1HP > 100) {
+         p1HP = 100;
+      }
+      eval('document.Item8.src="img/no.gif"');
+      HALF_HERB = 0;
+    } else if (FULL_HERB == 1) {
+      p1HP = 100;
+      eval('document.Item9.src="img/no.gif"');
+      FULL_HERB = 0;
+    }
+    showTotal('HPs',p1HP);
+  }
+  
+  function Cheat() {
+    eval('document.Item1.src="img/bronze_sword.gif"');
+    SWORD = 1;
+    eval('document.Item2.src="img/bronze_shield.gif"');
+    SHIELD = 1;
+    eval('document.Item3.src="img/axe.gif"');
+    AXE = 1;
+    eval('document.Item4.src="img/torch.gif"');
+    TORCH = 1;
+    eval('document.Item5.src="img/flute.gif"');
+    FLUTE = 1;
+    eval('document.Item6.src="img/key.gif"');
+    YELLOW_KEY = 1;
+    eval('document.Item7.src="img/redkey.gif"');
+    RED_KEY = 1;
+    eval('document.Item8.src="img/half_herb.gif"');
+    HALF_HERB = 1;
+    eval('document.Item9.src="img/full_herb.gif"');
+    FULL_HERB = 1;
+    eval('document.Item10.src="img/bottle.gif"');
+    BOTTLE = 1;
+  }
+
+  function getkeypress(keypress) {
+    //when they press a key, if it is a movement key, set the movement variable
+    keyp = (isNS || isNS6) ? keypress.which : window.event.keyCode;
+    //alert(keyp);
+    if (keyp == 56) p1y = -1;  //K8
+    if (keyp == 50) p1y = 1;   //K2
+    if (keyp == 52) p1x = -1;  //K4
+    if (keyp == 54) p1x = 1;   //K6
+    if (keyp == 53) useItem();   //K5
+    if (keyp == 55) {p1x = -1;p1y = -1;} //K7
+    if (keyp == 57) {p1x = 1;p1y = -1;}  //K9
+    if (keyp == 49) {p1x = -1;p1y = 1;}  //K1
+    if (keyp == 51) {p1x = 1;p1y = 1;}   //K3
+    if (keyp == 48) useHerb();  //K0
+    //if (keyp == 46) Cheat();  //K.
+    return false;
+  }
+</script>
+
+<SCRIPT LANGUAGE="JavaScript">
+   var Ver4 = parseInt(navigator.appVersion) == 4
+   var Ver4Up = parseInt(navigator.appVersion) >= 4
+   var Nav4 = ((navigator.appName == "Netscape") && Ver4)
+   var modifiable
+
+   //*CALCULATE AND DISPLAY THE ROW'S TOTAL*//
+   function showTotal(qtyList,value) {
+     var prodID = qtyList;
+     var total = value
+     var newCellHTML = "<SPAN CLASS='total'>" + total + "</SPAN>"
+
+	if(Nav4) {
+	  document.layers[prodID + "TotalWrapper"].document.layers[prodID + "Total"].document.write(newCellHTML)
+	  document.layers[prodID + "TotalWrapper"].document.layers[prodID + "Total"].document.close()
+	} else if (modifiable) {
+	  if (document.all) {
+	    document.all(prodID + "Total").innerHTML = newCellHTML
+	  } else {
+	    document.getElementById(prodID + "Total").innerHTML = newCellHTML
+	    }
+	  }
+   }//END FUNCTION
+
+   function DisplayMsg(qtyList,value) {
+     var prodID = qtyList;
+     var msg = value
+     var newCellHTML = "<SPAN CLASS='msg'>" + msg + "</SPAN>"
+
+	if(Nav4) {
+	  document.layers[prodID + "BarWrapper"].document.layers[prodID + "Bar"].document.write(newCellHTML)
+	  document.layers[prodID + "BarWrapper"].document.layers[prodID + "Bar"].document.close()
+	} else if (modifiable) {
+	  if (document.all) {
+	    document.all(prodID + "Bar").innerHTML = newCellHTML
+	  } else {
+	    document.getElementById(prodID + "Bar").innerHTML = newCellHTML
+	    }
+	  }
+   }//END FUNCTION
+
+  //*INITIALIZE GLOBAL FLAG FOR BROWSERS CAPABLE OF  MODIFIABLE CONTENT*//
+  function init() {
+    modifiable = (Ver4Up && document.body && document.body.innerHTML)
+    showTotal('HPs',p1HP);
+    showTotal('EPs',p1Exper);
+    showTotal('Level',p1Level);
+    showTotal('GP',p1Gold);
+    showTotal('EHP',enemyHP);
+
+    scrnMsg.msg = "Welcome to Adventure of J-Man.";
+    typewriter();
+  }
+</SCRIPT>
+
+      <TABLE BORDER=0 BGCOLOR='black'>
+        <COLGROUP WIDTH=10>
+        <TR>
+     	  <TD BGCOLOR="black"><FONT COLOR="black">A</FONT><INPUT TYPE="hidden" NAME="Msgs" VALUE="0"></TD>
+	  <TD></TD>
+	  <TD BGCOLOR="Black">
+	    <SCRIPT LANGUAGE="JavaScript">
+	    if (Nav4) {
+ 	      var placeHolder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      placeHolder += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      document.write("<SPAN ID='MsgsBarWrapper' CLASS='relativeWrap'>")
+ 	      document.write("<SPAN ID='MsgsBar' CLASS='absoluteWrap'></SPAN>")
+ 	      document.write("<SPAN>" + placeHolder + "</SPAN></SPAN>")
+	    } else {
+ 	      document.write("<SPAN ID='MsgsBar' CLASS='relativeWrap'>" + "<P>&nbsp;</P></SPAN>")
+	    }
+	    </SCRIPT>
+     </TD>
+    </TR>
+   </TABLE>
+
+      <TABLE BORDER=0 BGCOLOR='black'>
+        <COLGROUP WIDTH=10>
+        <TR>
+     	  <TD BGCOLOR="black"><FONT COLOR="white">HP:</FONT><INPUT TYPE="hidden" NAME="HPs" VALUE="0"></TD>
+	  <TD></TD>
+	  <TD>
+	    <SCRIPT LANGUAGE="JavaScript">
+	    if (Nav4) {
+ 	      var placeHolder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      placeHolder += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      document.write("<SPAN ID='HPsTotalWrapper' CLASS='relativeWrap'>")
+ 	      document.write("<SPAN ID='HPsTotal' CLASS='absoluteWrap'></SPAN>")
+ 	      document.write("<SPAN>" + placeHolder + "</SPAN></SPAN>")
+	    } else {
+ 	      document.write("<SPAN ID='HPsTotal' CLASS='relativeWrap'>" + "<P>&nbsp;</P></SPAN>")
+	    }
+	    </SCRIPT>
+	  </TD>
+	  <TD>
+	    <img name="Item1" src="img/sword.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item2" src="img/shield.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item3" src="img/no.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item4" src="img/no.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item5" src="img/no.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item6" src="img/no.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item7" src="img/no.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item8" src="img/no.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item9" src="img/no.gif" width="31" height="31">
+	  </TD>
+	  <TD>
+	    <img name="Item10" src="img/no.gif" width="31" height="31">
+	  </TD>
+	</TR>
+     	<TR>
+	  <TD><FONT COLOR="white">EP:</FONT><INPUT TYPE="hidden" NAME="EPs" VALUE="0"></TD>
+	  <TD></TD>
+	  <TD>
+	    <SCRIPT LANGUAGE="JavaScript">
+	    if (Nav4) {
+ 	      var placeHolder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      placeHolder += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      document.write("<SPAN ID='EPsTotalWrapper' CLASS='relativeWrap'>")
+ 	      document.write("<SPAN ID='EPsTotal' CLASS='absoluteWrap'></SPAN>")
+ 	      document.write("<SPAN>" + placeHolder + "</SPAN></SPAN>")
+	    } else {
+ 	      document.write("<SPAN ID='EPsTotal' CLASS='relativeWrap'>" + "<P>&nbsp;</P></SPAN>")
+	    }
+	    </SCRIPT>
+	  </TD>
+	</TR>
+	<TR>
+	  <TD><FONT COLOR="white">Level:</FONT><INPUT TYPE="hidden" NAME="Level" VALUE="0"></TD>
+	  <TD></TD>
+	  <TD>
+	    <SCRIPT LANGUAGE="JavaScript">
+	    if (Nav4) {
+ 	      var placeHolder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      placeHolder += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      document.write("<SPAN ID='LevelTotalWrapper' CLASS='relativeWrap'>")
+ 	      document.write("<SPAN ID='LevelTotal' CLASS='absoluteWrap'></SPAN>")
+ 	      document.write("<SPAN>" + placeHolder + "</SPAN></SPAN>")
+	    } else {
+ 	      document.write("<SPAN ID='LevelTotal' CLASS='relativeWrap'>" + "<P>&nbsp;</P></SPAN>")
+	    }
+	    </SCRIPT>
+	  </TD>
+	</TR>
+	<TR>
+	  <TD><FONT COLOR="white">Gold:</FONT><INPUT TYPE="hidden" NAME="GP" VALUE="0"></TD>
+	  <TD></TD>
+ 	  <TD>
+	    <SCRIPT LANGUAGE="JavaScript">
+	    if (Nav4) {
+ 	      var placeHolder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      placeHolder += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      document.write("<SPAN ID='GPTotalWrapper' CLASS='relativeWrap'>")
+ 	      document.write("<SPAN ID='GPTotal' CLASS='absoluteWrap'></SPAN>")
+ 	      document.write("<SPAN>" + placeHolder + "</SPAN></SPAN>")
+	    } else {
+ 	      document.write("<SPAN ID='GPTotal' CLASS='relativeWrap'>" + "<P>&nbsp;</P></SPAN>")
+	    }
+	    </SCRIPT>
+	  </TD>
+	</TR>
+	<TR>
+	  <TD BGCOLOR="gray"><FONT COLOR="white">Enemy HP:</FONT><INPUT TYPE="hidden" NAME="EHP" VALUE="0"></TD>
+	  <TD></TD>
+ 	  <TD>
+	    <SCRIPT LANGUAGE="JavaScript">
+	    if (Nav4) {
+ 	      var placeHolder = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      placeHolder += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+ 	      document.write("<SPAN ID='EHPTotalWrapper' CLASS='relativeWrap'>")
+ 	      document.write("<SPAN ID='EHPTotal' CLASS='absoluteWrap'></SPAN>")
+ 	      document.write("<SPAN>" + placeHolder + "</SPAN></SPAN>")
+	    } else {
+ 	      document.write("<SPAN ID='EHPTotal' CLASS='relativeWrap'>" + "<P>&nbsp;</P></SPAN>")
+	    }
+	    </SCRIPT>
+	  </TD>
+	</TR>
+      </TABLE>
+      <A HREF="javascript:HowTo()" <FONT COLOR="White"><CENTER>HowTo:</FONT></CENTER></A>
+
+    <!-- I found this midi file on Fruity Loops, I edited this for background music, Author is unknown>
+    <EMBED SRC="sounds/bkgd.mid" width=0 height=0 AUTOSTART=true LOOP=true>
+    <bgsound src="sounds/bkgd.mid" loop="infinite"> -->
+</body>
+</html>

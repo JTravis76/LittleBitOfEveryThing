@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Scene Editor</title>
+    <link rel="stylesheet" href="./css/gameboard.css" />
+    <style>
+      .text-white {
+        color: white;
+      }
+      .d-flex {
+        display: flex;
+      }
+      .col-3 {
+        width: 33.333%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d-flex">
+      <div class="col-3">
+        <main></main>
+      </div>
+      <div class="text-white">
+        <div id="game-pieces" style="width: 416px"></div>
+      </div>
+    </div>
+
+    <form id="form1">
+      <textarea
+        id="scenedata"
+        rows="14"
+        wrap="off"
+        placeholder="scene data"
+        style="width: 50%"
+      ></textarea>
+
+      <div class="text-white">
+        Map:
+        <select id="scene-selector">
+          <option value="-1" selected>--</option>
+        </select>
+      </div>
+      <button type="button" id="copyscene">Copy</button>
+      <button type="button" id="loadscene">Load</button>
+    </form>
+
+    <!-- <script src="./js/map2.js"></script> -->
+    <!-- <script>
+      function convert(idx = 0) {
+        const scene = scrn[idx].replaceAll(";", "|");
+        console.log(JSON.stringify(scene));
+      }
+      convert(64);
+      //convert(63);
+    </script> -->
+    <script type="module">
+      import gb from "./js/gameboard.js";
+      import scenes from "./js/map.js";
+
+      let scene = -1;
+
+      for (let i = 0; i < scenes.length; i++) {
+        const opt = document.createElement("option");
+        opt.value = i.toString();
+        opt.text = i.toString();
+        document.forms.form1["scene-selector"].add(opt);
+      }
+      document.forms.form1["scene-selector"].addEventListener("change", (e) => {
+        scene = parseInt(e.target.value, 10);
+        if (scene > -1) {
+          gb.loadScene(scene);
+          document.forms.form1.scenedata.value = scenes[scene];
+        } else {
+          gb.clearScene();
+          newScene();
+        }
+      });
+
+      document.forms.form1["copyscene"].addEventListener("click", (e) => {
+        const el = document.forms.form1.scenedata;
+        el.select();
+        navigator.clipboard.writeText(el.value);
+      });
+
+      document.forms.form1["loadscene"].addEventListener("click", (e) => {
+        const el = document.forms.form1.scenedata;
+        gb.loadSceneFrom(el.value);
+      });
+
+      // add game pieces
+      const el = document.getElementById("game-pieces");
+      [
+        "no",
+        "water_start_down",
+        "water_down",
+        "water_end_down",
+        "wall_start_down",
+        "wall",
+        "wall_end_down",
+        "treasure_close",
+        "block_corner",
+        "block",
+        "wall_start_down2",
+        "wall2",
+        "wall_end_down2",
+        "tree",
+        "water_left",
+        "water",
+        "water_right",
+        "wall_down_left",
+        "wall_bridge",
+        "wall_down_right",
+        "treasure_open",
+        "block2",
+        "redkey",
+        "wall_down_left2",
+        "key",
+        "wall_down_right2",
+        "cave",
+        "water_start_up",
+        "water_up",
+        "water_end_up",
+        "wall_start",
+        "wall_down",
+        "wall_end",
+        "block_corner",
+        "block_corner",
+        "block_corner",
+        "wall_start2",
+        "wall_down2",
+        "wall_end2",
+      ].forEach((p) => {
+        const a = document.createElement("a");
+        a.href = "#";
+        a.title = p;
+        const img = document.createElement("img");
+        img.alt = "";
+        img.src = `./img/${p}.gif`;
+        a.appendChild(img);
+        el.appendChild(a);
+      });
+
+      function newScene() {
+        document.forms.form1.scenedata.value =
+          "||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||\n||||||||||||||||||||||||";
+      }
+
+      gb.setupGameBoard();
+      newScene();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="fun little RPG game in javascript" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
+    />
+    <title>The Mini Adventure of Jeremiah</title>
+    <link rel="stylesheet" href="./css/gameboard.css" />
+  </head>
+  <body>
+    <noscript>
+      <b>Your browser has JavaScript turned off.</b>
+      <p>
+        You will experience a more enjoyable time using this Web site if you
+        turn JavaScript on.
+      </p>
+    </noscript>
+    <main></main>
+    <div class="message-board">
+      <span id="msg-bar"></span>
+    </div>
+    <div class="inventory-panel">
+      <img alt="" id="inventory1" src="./img/no.gif" />
+      <img alt="" id="inventory2" src="./img/no.gif" />
+      <img alt="" id="inventory3" src="./img/no.gif" />
+      <img alt="" id="inventory4" src="./img/no.gif" />
+      <img alt="" id="inventory5" src="./img/no.gif" />
+      <img alt="" id="inventory6" src="./img/no.gif" />
+      <img alt="" id="inventory7" src="./img/no.gif" />
+      <img alt="" id="inventory8" src="./img/no.gif" />
+      <img alt="" id="inventory9" src="./img/no.gif" />
+      <img alt="" id="inventory10" src="./img/no.gif" />
+    </div>
+
+    <table style="border: 1px solid red">
+      <tbody>
+        <tr>
+          <td>HP:</td>
+          <td>
+            <input id="hp" type="text" value="0" disabled title="hit points" />
+          </td>
+          <td>Enemy HP:</td>
+          <td>
+            <input
+              id="ehp"
+              type="text"
+              value="0"
+              disabled
+              title="enemy hit points"
+            />
+          </td>
+          <td>
+            <button id="btn-help" type="button" onclick="howTo()">
+              &#10068;
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>EP:</td>
+          <td>
+            <input
+              id="ep"
+              type="text"
+              value="0"
+              disabled
+              title="experience points"
+            />
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Level:</td>
+          <td>
+            <input
+              id="level"
+              type="text"
+              value="0"
+              disabled
+              title="experience level"
+            />
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Gold:</td>
+          <td>
+            <input id="gp" type="text" value="0" disabled title="gold points" />
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="joystick-controls">
+      <div class="navigational-panel">
+        <div class="tile"></div>
+        <div>
+          <button
+            type="button"
+            class="tile up"
+            onclick="move('8')"
+            title="up"
+          ></button>
+        </div>
+        <div class="tile"></div>
+        <div>
+          <button
+            type="button"
+            class="tile left"
+            onclick="move('4')"
+            title="left"
+          ></button>
+        </div>
+        <div class="tile"></div>
+        <div>
+          <button
+            type="button"
+            class="tile right"
+            onclick="move('6')"
+            title="right"
+          ></button>
+        </div>
+        <div class="tile"></div>
+        <div>
+          <button
+            type="button"
+            class="tile down"
+            onclick="move('2')"
+            title="down"
+          ></button>
+        </div>
+        <div class="tile"></div>
+      </div>
+      <div>
+        <div class="pull-left">
+          <button
+            type="button"
+            class="tile mt-7"
+            onclick="move('5')"
+            title="action"
+          >
+            A
+          </button>
+        </div>
+        <div class="pull-right">
+          <button
+            type="button"
+            class="tile mt-2_4"
+            onclick="move('0')"
+            title="use herb"
+          >
+            B
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script language="javascript">
+      function howTo() {
+        window.open(
+          "./how_to.html",
+          "_blank",
+          "status,height=600,width=600,resizable,scrollbars"
+        );
+      }
+
+      function move(key) {
+        document.dispatchEvent(new KeyboardEvent("keyup", { key }));
+      }
+    </script>
+    <script type="module" defer src="./js/index.js"></script>
+    <!-- I found this midi file on Fruity Loops, I edited this for background music, Author is unknown> -->
+    <!-- <embed src="./sounds/bkgd.mid" autostart="true" loop="true" /> -->
+    <!-- <bgsound src="./sounds/bkgd.mid" loop="infinite" /> -->
+  </body>
+</html>

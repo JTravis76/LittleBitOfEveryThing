@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Page]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NULL
+)

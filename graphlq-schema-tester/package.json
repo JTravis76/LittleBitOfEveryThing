@@ -1,0 +1,11 @@
+{
+  "name": "graphlq-schema-tester",
+  "version": "1.0.0",
+  "description": "graphql schema tester using GraphiQL",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeremy Travis",
+  "license": "UNLICENSED"
+}

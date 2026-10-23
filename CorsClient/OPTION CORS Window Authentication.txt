@@ -1,0 +1,244 @@
+OPTIONS http://localhost:55021/graphql HTTP/1.1
+Host: localhost:55021
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type
+Origin: http://localhost:1337
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:1337/dist/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+
+HTTP/1.1 401 Unauthorized
+Cache-Control: private
+Content-Type: text/html; charset=utf-8
+Server: Microsoft-IIS/10.0
+X-SourceFiles: =?UTF-8?B?QzpcVXNlcnNcS0RKXHNvdXJjZVxXb3Jrc3BhY2VzXFJhZGFyLUFEQVRcRmVhdHVyZVxTb3VyY2VcUmFkYXItQURBVFxSYWRhci5BcGlcZ3JhcGhxbA==?=
+WWW-Authenticate: Negotiate
+WWW-Authenticate: NTLM
+X-Powered-By: ASP.NET
+Date: Wed, 17 Jun 2020 17:02:42 GMT
+Content-Length: 5950
+
+* See below for full output
+---
+
+OPTIONS http://localhost:55021/graphql HTTP/1.1
+Host: localhost:55021
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type
+Origin: http://localhost:1337
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:1337/dist/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Authorization: Negotiate YHgGBisGAQUFAqBuMGygMDAuBgorBgEEAYI3AgIKBgkqhkiC9xIBAgIGCSqGSIb3EgECAgYKKwYBBAGCNwICHqI4BDZOVExNU1NQAAEAAACXsgjiBwAHAC8AAAAHAAcAKAAAAAoAY0UAAAAPUEExMzA3OEREUE9SVFM=
+
+
+HTTP/1.1 401 Unauthorized
+Content-Type: text/html; charset=us-ascii
+Server: Microsoft-HTTPAPI/2.0
+WWW-Authenticate: Negotiate oYIBFTCCARGgAwoBAaEMBgorBgEEAYI3AgIKooH7BIH4TlRMTVNTUAACAAAADgAOADgAAAAVwoniHFB3dSMbxq6hBQEAAAAAALIAsgBGAAAACgBjRQAAAA9EAEQAUABPAFIAVABTAAIADgBEAEQAUABPAFIAVABTAAEADgBQAEEAMQAzADAANwA4AAQAJgBkAGQAcABvAHIAdABzAC4AcABvAHIAdABzAC4AbABvAGMAYQBsAAMANgBwAGEAMQAzADAANwA4AC4AZABkAHAAbwByAHQAcwAuAHAAbwByAHQAcwAuAGwAbwBjAGEAbAAFABYAcABvAHIAdABzAC4AbABvAGMAYQBsAAcACAAzEpkdyUTWAQAAAAA=
+Date: Wed, 17 Jun 2020 17:02:42 GMT
+Content-Length: 341
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd">
+<HTML><HEAD><TITLE>Not Authorized</TITLE>
+<META HTTP-EQUIV="Content-Type" Content="text/html; charset=us-ascii"></HEAD>
+<BODY><h2>Not Authorized</h2>
+<hr><p>HTTP Error 401. The requested resource requires user authentication.</p>
+</BODY></HTML>
+
+---
+
+OPTIONS http://localhost:55021/graphql HTTP/1.1
+Host: localhost:55021
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type
+Origin: http://localhost:1337
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:1337/dist/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Authorization: Negotiate oXcwdaADCgEBoloEWE5UTE1TU1AAAwAAAAAAAABYAAAAAAAAAFgAAAAAAAAAWAAAAAAAAABYAAAAAAAAAFgAAAAAAAAAWAAAABXCiOIKAGNFAAAAD5gjxMG1owJuU9MmkBtIuSWjEgQQAQAAAF9u7WCoxdvGAAAAAA==
+
+
+HTTP/1.1 204 No Content
+Vary: Origin
+Server: Kestrel
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: content-type
+Access-Control-Allow-Origin: http://localhost:1337
+X-SourceFiles: =?UTF-8?B?QzpcVXNlcnNcS0RKXHNvdXJjZVxXb3Jrc3BhY2VzXFJhZGFyLUFEQVRcRmVhdHVyZVxTb3VyY2VcUmFkYXItQURBVFxSYWRhci5BcGlcZ3JhcGhxbA==?=
+Persistent-Auth: true
+X-Powered-By: ASP.NET
+WWW-Authenticate: Negotiate oRswGaADCgEAoxIEEAEAAABKxzrbakGE8AAAAAA=
+Date: Wed, 17 Jun 2020 17:02:49 GMT
+
+---
+
+POST http://localhost:55021/graphql HTTP/1.1
+Host: localhost:55021
+Connection: keep-alive
+Content-Length: 121
+Accept: application/json
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36
+Content-Type: application/json
+Origin: http://localhost:1337
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:1337/dist/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+{"query":"query AboutMe{aboutMe{userInfo{title bio}roles,user{id,fullname,badge,email,phone,ntUsername,adsCreateDate}}}"}
+
+
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, must-revalidate, max-age=0
+Pragma: no-cache
+Transfer-Encoding: chunked
+Content-Type: application/json; charset=utf-8
+Expires: 0
+Vary: Origin
+Server: Kestrel
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Origin: http://localhost:1337
+X-SourceFiles: =?UTF-8?B?QzpcVXNlcnNcS0RKXHNvdXJjZVxXb3Jrc3BhY2VzXFJhZGFyLUFEQVRcRmVhdHVyZVxTb3VyY2VcUmFkYXItQURBVFxSYWRhci5BcGlcZ3JhcGhxbA==?=
+Persistent-Auth: true
+X-Powered-By: ASP.NET
+Date: Wed, 17 Jun 2020 17:02:53 GMT
+
+110
+{"errors":[],"data":{"aboutMe":{"userInfo":null,"roles":["Admin","NCManager"],"user":{"id":10219,"fullname":"Travis, Jeremy","badge":"80403","email":"jeremy.travis@ports.pppo.gov","phone":"740-897-3312","ntUsername":"DDPORTS\\KDJ","adsCreateDate":"2016-02-11T00:00:00"}}}}
+0
+
+
+
+
+
+
+# below the body of the first response
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<title>IIS 10.0 Detailed Error - 401.2 - Unauthorized</title> 
+<style type="text/css"> 
+<!-- 
+body{margin:0;font-size:.7em;font-family:Verdana,Arial,Helvetica,sans-serif;} 
+code{margin:0;color:#006600;font-size:1.1em;font-weight:bold;} 
+.config_source code{font-size:.8em;color:#000000;} 
+pre{margin:0;font-size:1.4em;word-wrap:break-word;} 
+ul,ol{margin:10px 0 10px 5px;} 
+ul.first,ol.first{margin-top:5px;} 
+fieldset{padding:0 15px 10px 15px;word-break:break-all;} 
+.summary-container fieldset{padding-bottom:5px;margin-top:4px;} 
+legend.no-expand-all{padding:2px 15px 4px 10px;margin:0 0 0 -12px;} 
+legend{color:#333333;;margin:4px 0 8px -12px;_margin-top:0px; 
+font-weight:bold;font-size:1em;} 
+a:link,a:visited{color:#007EFF;font-weight:bold;} 
+a:hover{text-decoration:none;} 
+h1{font-size:2.4em;margin:0;color:#FFF;} 
+h2{font-size:1.7em;margin:0;color:#CC0000;} 
+h3{font-size:1.4em;margin:10px 0 0 0;color:#CC0000;} 
+h4{font-size:1.2em;margin:10px 0 5px 0; 
+}#header{width:96%;margin:0 0 0 0;padding:6px 2% 6px 2%;font-family:"trebuchet MS",Verdana,sans-serif; 
+ color:#FFF;background-color:#5C87B2; 
+}#content{margin:0 0 0 2%;position:relative;} 
+.summary-container,.content-container{background:#FFF;width:96%;margin-top:8px;padding:10px;position:relative;} 
+.content-container p{margin:0 0 10px 0; 
+}#details-left{width:35%;float:left;margin-right:2%; 
+}#details-right{width:63%;float:left;overflow:hidden; 
+}#server_version{width:96%;_height:1px;min-height:1px;margin:0 0 5px 0;padding:11px 2% 8px 2%;color:#FFFFFF; 
+ background-color:#5A7FA5;border-bottom:1px solid #C1CFDD;border-top:1px solid #4A6C8E;font-weight:normal; 
+ font-size:1em;color:#FFF;text-align:right; 
+}#server_version p{margin:5px 0;} 
+table{margin:4px 0 4px 0;width:100%;border:none;} 
+td,th{vertical-align:top;padding:3px 0;text-align:left;font-weight:normal;border:none;} 
+th{width:30%;text-align:right;padding-right:2%;font-weight:bold;} 
+thead th{background-color:#ebebeb;width:25%; 
+}#details-right th{width:20%;} 
+table tr.alt td,table tr.alt th{} 
+.highlight-code{color:#CC0000;font-weight:bold;font-style:italic;} 
+.clear{clear:both;} 
+.preferred{padding:0 5px 2px 5px;font-weight:normal;background:#006633;color:#FFF;font-size:.8em;} 
+--> 
+</style> 
+ 
+</head> 
+<body> 
+<div id="content"> 
+<div class="content-container"> 
+  <h3>HTTP Error 401.2 - Unauthorized</h3> 
+  <h4>You are not authorized to view this page due to invalid authentication headers.</h4> 
+</div> 
+<div class="content-container"> 
+ <fieldset><h4>Most likely causes:</h4> 
+  <ul> 	<li>No authentication protocol (including anonymous) is selected in IIS.</li> 	<li>Only integrated authentication is enabled, and a client browser was used that does not support integrated authentication.</li> 	<li>Integrated authentication is enabled and the request was sent through a proxy that changed the authentication headers before they reach the Web server.</li> 	<li>The Web server is not configured for anonymous access and a required authorization header was not received.</li> 	<li>The "configuration/system.webServer/authorization" configuration section may be explicitly denying the user access.</li> </ul> 
+ </fieldset> 
+</div> 
+<div class="content-container"> 
+ <fieldset><h4>Things you can try:</h4> 
+  <ul> 	<li>Verify the authentication setting for the resource and then try requesting the resource using that authentication method.</li> 	<li>Verify that the client browser supports Integrated authentication.</li> 	<li>Verify that the request is not going through a proxy when Integrated authentication is used.</li> 	<li>Verify that the user is not explicitly denied access in the "configuration/system.webServer/authorization" configuration section.</li> 	<li>Check the failed request tracing logs for additional information about this error. For more information, click <a href="http://go.microsoft.com/fwlink/?LinkID=66439">here</a>. </li> </ul> 
+ </fieldset> 
+</div> 
+ 
+<div class="content-container"> 
+ <fieldset><h4>Detailed Error Information:</h4> 
+  <div id="details-left"> 
+   <table border="0" cellpadding="0" cellspacing="0"> 
+    <tr class="alt"><th>Module</th><td>&nbsp;&nbsp;&nbsp;IIS Web Core</td></tr> 
+    <tr><th>Notification</th><td>&nbsp;&nbsp;&nbsp;AuthenticateRequest</td></tr> 
+    <tr class="alt"><th>Handler</th><td>&nbsp;&nbsp;&nbsp;aspNetCore</td></tr> 
+    <tr><th>Error Code</th><td>&nbsp;&nbsp;&nbsp;0x80070005</td></tr> 
+     
+   </table> 
+  </div> 
+  <div id="details-right"> 
+   <table border="0" cellpadding="0" cellspacing="0"> 
+    <tr class="alt"><th>Requested URL</th><td>&nbsp;&nbsp;&nbsp;http://localhost:55021/graphql</td></tr> 
+    <tr><th>Physical Path</th><td>&nbsp;&nbsp;&nbsp;C:\Users\KDJ\source\Workspaces\Radar-ADAT\Feature\Source\Radar-ADAT\Radar.Api\graphql</td></tr> 
+    <tr class="alt"><th>Logon Method</th><td>&nbsp;&nbsp;&nbsp;Not yet determined</td></tr> 
+    <tr><th>Logon User</th><td>&nbsp;&nbsp;&nbsp;Not yet determined</td></tr> 
+     
+   </table> 
+   <div class="clear"></div> 
+  </div> 
+ </fieldset> 
+</div> 
+ 
+<div class="content-container"> 
+ <fieldset><h4>More Information:</h4> 
+  This error occurs when the WWW-Authenticate header sent to the Web server is not supported by the server configuration. Check the authentication method for the resource, and verify which authentication method the client used. The error occurs when the authentication methods are different. To determine which type of authentication the client is using, check the authentication settings for the client. 
+  <p><a href="https://go.microsoft.com/fwlink/?LinkID=62293&amp;IIS70Error=401,2,0x80070005,17763">View more information &raquo;</a></p> 
+  <p>Microsoft Knowledge Base Articles:</p> 
+ <ul><li>907273</li><li>253667</li></ul> 
+ 
+ </fieldset> 
+</div> 
+</div> 
+</body> 
+</html> 
+
+
+
+
+
