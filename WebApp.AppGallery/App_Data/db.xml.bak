@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ApplicationGallery>
+  <Applications>
+    <id>1</id>
+    <name>&amp;nbsp;</name>
+    <title></title>
+    <link></link>
+    <img></img>
+  </Applications>
+  <sequence>
+    <nextSeq>2</nextSeq>
+  </sequence>
+  <Users>
+    <username>admin</username>
+    <pwd>admin</pwd>
+  </Users>
+</ApplicationGallery>

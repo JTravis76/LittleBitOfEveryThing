@@ -1,0 +1,42 @@
+.text-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+input[type="datetime-local"],
+input[type="date"] {
+  border: 1px solid var(--color--gray2);
+  border-radius: 4px;
+  background-color: var(--color--white);
+  color: var(--color--gray3);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+textarea,
+input[type="text"] {
+  width: 100%;
+  border: 1px solid var(--color--gray2);
+  border-radius: 4px;
+  background-color: var(--color--white);
+  color: var(--color--gray3);
+  font-size: 14px;
+  padding: 4px;
+}
+
+input[type="radio"] {
+  margin: 4px;
+}

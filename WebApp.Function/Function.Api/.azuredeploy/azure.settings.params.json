@@ -1,0 +1,108 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "#{environment}#"
+    },
+    "functionAppName": {
+      "value": "#{functionAppName}#"
+    },
+    "releaseName": {
+      "value": "#{Release.ReleaseName}#"
+    },
+    "storageAccountName": {
+      "value": "#{storageAccountName}#"
+    },
+    "appInsightsName": {
+      "value": "#{appInsightsName}#"
+    },
+    "dbHost": {
+      "value": "#{dbHost}#"
+    },
+    "dbName": {
+      "value": "#{dbName}#"
+    },
+    "dbUser": {
+      "value": "#{dbAppUser}#"
+    },
+    "dbPass": {
+      "value": "#{dbAppPass}#"
+    },
+    "checkoutReminder.thresholdMinutes": {
+      "value": "#{checkoutReminder.thresholdMinutes}#"
+    },
+    "checkoutReminder.repeatMinutes": {
+      "value": "#{checkoutReminder.repeatMinutes}#"
+    },
+    "checkoutReminder.emailSubject": {
+      "value": "#{checkoutReminder.emailSubject}#"
+    },
+    "checkoutReminder.maxCount": {
+      "value": "#{checkoutReminder.maxCount}#"
+    },
+    "checkoutReminder.defaultEmailAddresses": {
+      "value": "#{checkoutReminder.defaultEmailAddresses}#"
+    },
+    "defaultEmailFromAddress": {
+      "value": "#{defaultEmailFromAddress}#"
+    },
+    "defaultEmailFromName": {
+      "value": "#{defaultEmailFromName}#"
+    },
+    "issueReportEmailToAddress": {
+      "value": "#{issueReportEmailToAddress}#"
+    },
+    "issueReportEmailToName": {
+      "value": "#{issueReportEmailToName}#"
+    },
+    "sendGrid.apiKey": {
+      "value": "#{sendGrid.apiKey}#"
+    },
+    "timerExpression.checkoutReminderTimer": {
+      "value": "#{timerExpression.checkoutReminderTimer}#"
+    },
+    "timerExpression.syncFacilitiesTimer": {
+      "value": "#{timerExpression.syncFacilitiesTimer}#"
+    },
+    "auth.clientId": {
+      "value": "#{auth.clientId}#"
+    },
+    "auth.audiences": {
+      "value": "#{auth.audiences}#"
+    },
+    "arcGIS.Username": {
+      "value": "#{arcGIS.Username}#"
+    },
+    "arcGIS.Password": {
+      "value": "#{arcGIS.Password}#"
+    },
+    "arcGIS.TokenDomain": {
+      "value": "#{arcGIS.TokenDomain}#"
+    },
+    "arcGIS.TokenHost": {
+      "value": "#{arcGIS.TokenHost}#"
+    },
+    "arcGIS.ApiDomain": {
+      "value": "#{arcGIS.ApiDomain}#"
+    },
+    "arcGIS.ApiHost": {
+      "value": "#{arcGIS.ApiHost}#"
+    },
+    "arcGIS.ApiBaseURL": {
+      "value": "#{arcGIS.ApiBaseURL}#"
+    },
+    "appPrefix": {
+      "value": "#{appPrefix}#"
+    },
+    "relay.name": {
+      "value": "#{relay.name}#"
+    },
+    "relay.hybridConnection.api.name": {
+      "value": "#{relay.hybridConnection.api.name}#"
+    },
+    "relay.hybridConnection.token.name": {
+      "value": "#{relay.hybridConnection.token.name}#"
+    }
+  }
+}

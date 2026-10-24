@@ -1,0 +1,6 @@
+# Ignore Artifacts
+.vscode
+node_modules
+docs
+README.md
+src/lib

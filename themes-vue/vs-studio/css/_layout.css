@@ -1,0 +1,210 @@
+header {
+  overflow: hidden;
+  background-color: var(--purple3);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 2px 4px;
+  z-index: 1;
+  display: flex;
+  max-height: 22px;
+
+  & .avatar {
+    height: 20px;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--purple1);
+    border-radius: 50%;
+    background-color: var(--purple1);
+    color: var(--purple3);
+    padding: 4px;
+    font-weight: bold;
+  }
+}
+
+header .icon {
+  width: 20px;
+  height: 20px;
+  margin: 0 4px 0 0;
+  fill: var(--purple2);
+}
+
+header .search-box {
+  border: 1px solid #8591a2;
+  padding: 2px;
+  font-size: 12px;
+}
+
+header .project-box {
+  background-color: var(--white1);
+  color: var(--purple2);
+  padding: 0 6px;
+  font-size: 12px;
+  margin-left: 16px;
+  line-height: 1.8;
+}
+
+header .application-bar {
+  display: flex;
+  width: 38%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+header .application-controls {
+  width: 150px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+header .application-controls a {
+  border: 1px solid var(--purple3);
+  text-decoration: none;
+  padding-top: 2px;
+}
+
+header .application-controls a:hover {
+  border: 1px solid var(--purple3);
+  background: #ecf4ff;
+  color: var(--black);
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  border: 1px solid var(--purple3);
+  color: var(--primary-font-color);
+  text-align: center;
+  padding: 2px 10px;
+  text-decoration: none;
+  font-size: 12px;
+  font-family: var(--family1);
+  letter-spacing: 0.3px;
+}
+
+.navbar a:hover {
+  border: 1px solid var(--purple1);
+  background: #ecf4ff;
+  color: var(--black);
+}
+
+main {
+  margin: 32px 14px 30px 30px;
+
+  & .main-content {
+    display: flex;
+    justify-content: space-between;
+
+    & .editor {
+      background: inherit;
+      width: 100%;
+      margin-right: 4px;
+
+      & .editor-tabs {
+        overflow: hidden;
+
+        & .editor-tab--item {
+          border: none;
+          outline: none;
+          cursor: pointer;
+          font-size: 12px;
+          padding: 5px;
+          background-color: var(--purple2);
+          color: var(--purple3);
+
+          & .icon {
+            font-weight: initial;
+            margin-left: 8px;
+            padding-bottom: 2px;
+            fill: var(--purple2);
+            width: 6px;
+            height: 6px;
+          }
+        }
+
+        .editor-tab--item.active {
+          background-color: var(--panel-color1);
+          color: var(--black);
+          font-weight: bold;
+        }
+
+        .editor-tab--item:hover {
+          background-color: var(--purple3);
+          color: var(--purple2);
+        }
+      }
+
+      & .app-editor {
+        background-color: var(--white);
+        width: calc(100% -20px);
+        height: calc(100vh - 107px);
+        border-top: 3px solid var(--panel-color1);
+        border-left: 20px solid #e2e2e2;
+        padding: 0;
+        overflow-x: auto;
+      }
+    }
+  }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background-color: var(--purple2);
+  color: var(--white);
+  padding: 6px;
+  z-index: 1;
+  display: flex;
+}
+
+footer .icon {
+  width: 16px;
+  height: 16px;
+  fill: var(--white);
+  margin: 2px 4px 0 0;
+}
+
+aside.left-sidebar {
+  height: 100%;
+  width: 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--purple1);
+  overflow-x: hidden;
+  color: var(--white);
+}
+
+aside.left-sidebar .container {
+  margin-top: 70px;
+  transform: rotate(90deg);
+  margin-left: -4px;
+}
+
+aside.left-sidebar .container .dock-panel {
+  border: none;
+  border-bottom: 8px solid var(--purple2);
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+}
+
+aside.left-sidebar .container .dock-panel .title {
+  white-space: nowrap;
+  font-size: 12px;
+  font-family: sans-serif;
+  letter-spacing: 0.5px;
+}
+
+aside.right-sidebar {
+  height: 100%;
+  width: 10px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: var(--purple1);
+  overflow-x: hidden;
+  color: var(--white);
+}

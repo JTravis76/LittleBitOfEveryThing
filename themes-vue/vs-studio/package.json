@@ -1,0 +1,17 @@
+{
+  "name": "vs-studio",
+  "version": "0.0.0",
+  "description": "visual studio theme",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "visual",
+    "studio",
+    "vs",
+    "theme"
+  ],
+  "author": "Jeremy Travis",
+  "license": "ISC"
+}

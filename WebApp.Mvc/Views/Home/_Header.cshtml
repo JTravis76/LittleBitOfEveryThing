@@ -1,0 +1,22 @@
+﻿
+<!-- 960px = 10" wide paper with 0.5 side margins-->
+@{
+    Layout = null;
+}
+
+<table style="width:100%;">
+    <tr>
+        <td style="width:33%;">
+            <b style="font-size:10px;">
+                Current Date: @string.Format("{0:d-MMM-yy}", DateTime.Today).ToUpper()
+                <br />
+            </b>
+        </td>
+        <td style="width:33%;text-align:center;font-size:16px;">
+            <b><span style="font-size:20px;">FBP</span><i><br />Report Title<br />Goes Here</i></b>
+        </td>
+        <td style="width:33%;text-align:right;">
+            <!-- Empty placholder for Image, iTexhSharp XMLWorkerHelper ignores img tag-->
+        </td>
+    </tr>
+</table>

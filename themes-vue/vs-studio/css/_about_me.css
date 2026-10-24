@@ -1,0 +1,66 @@
+.photo {
+  padding: 5px;
+}
+
+.photo img {
+  max-width: 200px;
+  height: auto;
+  width: 95%;
+  vertical-align: middle;
+}
+
+.tilt {
+  border: 10px solid #FFFFCC;
+  behavior: url(-ms-transform.htc);
+  -moz-transform: rotate(-15deg);
+  /* Firefox */
+  -webkit-transform: rotate(-15deg);
+  /* Chrome & Safari */
+  -o-transform: rotate(-15deg);
+  /* Opera */
+  -ms-transform: rotate(-15deg);
+  /* IE 9+ */
+  transform: rotate(-15deg);
+  /* CSS3 */
+  filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
+}
+
+.untilt {
+  border: 10px solid #FFFFCC;
+  behavior: url(-ms-transform.htc);
+  -moz-transform: rotate(0deg);
+  /* Firefox */
+  -webkit-transform: rotate(0deg);
+  /* Chrome & Safari */
+  -o-transform: rotate(0deg);
+  /* Opera */
+  -ms-transform: rotate(0deg);
+  /* IE 9+ */
+  transform: rotate(0deg);
+  /* CSS3 */
+  filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
+}
+
+.about-me--title {
+  font-size: 40px;
+  font-weight: bold;
+  font-family: 'Happy Monkey',cursive;
+}
+
+.about-me--bio {
+  font-family: "Happy Monkey", cursive;
+  font-size: 16px;
+}
+
+.social-bar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.social-bar a {
+  margin: 2px;
+}

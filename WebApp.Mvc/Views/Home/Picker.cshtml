@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Picker";
+}
+
+<h2>Picker</h2>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <div class="form-group-sm form-inline">
+            <input type="text" id="txt-test" class="form-control" disabled="disabled" />
+            <button type="button" id="btn-test-picker" class="btn btn-sm btn-info">...</button>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Picker with Ajax</div>
+            <div class="panel-body">
+                <div class="form-group-sm form-inline">
+                    <input type="text" id="txt-color" class="form-control" disabled="disabled" />
+                    <button type="button" id="btn-picker" class="btn btn-sm btn-info">...</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <button type="button" id="btn-picker2" class="btn btn-xs btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                DIV Picker with pre-selected items
+            </div>
+            <div class="panel-body">
+                <div id="div-color">
+                    <button class="btn btn-xs btn-danger RemoveListItem" style="margin: 2px;" type="button" data-id="4"><span class="glyphicon glyphicon-remove"></span> Sample test 4</button>
+                    <button class="btn btn-xs btn-danger RemoveListItem" style="margin: 2px;" type="button" data-id="1"><span class="glyphicon glyphicon-remove"></span> Sample test 1</button>
+                    <button class="btn btn-xs btn-danger RemoveListItem" style="margin: 2px;" type="button" data-id="2"><span class="glyphicon glyphicon-remove"></span> Sample test 2</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#btn-test-picker').click(function () {
+
+            let detectors = [
+                { Text: "NaID0986", Value: "7" },
+                { Text: "NaID0994", Value: "18", Disabled: true, Title: "Out-of-Service" },
+                { Text: "NaID1584", Value: "43" },
+                { Text: "NaID1608", Value: "44" },
+                { Text: "NaID1585", Value: "45", Disabled: true },
+                { Text: "NaID0957", Value: "51", Disabled: true }
+            ];
+            $('#txt-test').Picker({ data: detectors, title: 'NaI Systems' });
+        });
+
+        $('#btn-picker2').click(function () {
+
+            $('#div-color').Picker({ multiSelect : true});
+        });
+
+        var customData = [{
+            Group: {
+                Name: "Group-1"
+            },
+            Text: "Sample test 1",
+            Value: "1"
+        }]
+
+        /*== Color */
+        $('#btn-picker').click(function (e) {
+            //$(this).addClass('disabled');
+
+           // $('#img-loading').css('left', (e.pageX + 20) + 'px').css('top', (e.pageY - 15) + 'px').show();
+
+            $('#txt-color').Picker({
+                //data: customData,
+                id: "ModalColor",
+                title: "Products",
+                //group: "Color",
+                //isSubModal: true,
+                //buttonTemplate: '<i class="glyphicon glyphicon-thumbs-up"></i>',
+                //buttonTemplate: '<i class="fa fa-circle"></i>',
+                showBlank: true,
+                ajax: true,
+                url: '@Url.Action("GetPickerProducts", "Home")',
+                onSelected: function () {
+                    //$('#btn-picker').removeClass('disabled');
+                    // $('#img-loading').hide();
+                    //alert('ID selected: ' + $('#txt-color').data('id'));
+                    //Center screen the modal
+                    //var modalDialog = $('#ModalColor').find('.modal-sub');
+                    //$(modalDialog).css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+                }
+            });
+
+        });
+
+    });
+</script>

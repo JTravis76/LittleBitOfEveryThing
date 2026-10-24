@@ -1,0 +1,63 @@
+﻿<html>
+    <head>
+        <title>Web API Tester</title>
+        <meta http-equiv="x-ua-compatible" content="ie=10"/>
+        <hta:application id="oHTA" applicationname="Web API Tester" version="1.0" singleinstance="yes"></hta:application>
+        <script type="text/javascript" src="jquery-3.1.1.js"></script>
+        <script type="text/javascript" src="XMLHttpRequest.js"></script>
+    </head>
+    <body>
+        <button id="btn-post" type="button">POST</button>
+        <br />
+        <textarea id="txt-output" rows="3"></textarea>
+
+
+        <script language="VBScript" type="text/vbscript">
+            Sub Alert()
+                Msgbox "This is a test"
+            End Sub
+        </script>
+
+        <script type="text/javascript">
+            var model = {"password":"TESTING"};
+          
+            $(document).ready(function () {
+
+                $(document).on('click', '#btn-post', function () {
+                    $("#txt-output").text(JSON.stringify(model));
+
+                    $.ajax({
+                        url: 'http://localhost:55754/api/login',
+                        type: "POST",
+                        cache: false,
+                        async: true,
+                        data: JSON.stringify(model),
+
+                        //Optional
+                        contentType: "application/json; charset=utf-8", //inform the server what data type you are sending to the server
+                        //dataType: "json", //This specifies the type of data you are expecting from the server. (i.e. not the datatype that you are sending to the server)
+
+                        beforeSend: function () { },
+                        complete: function () { },
+                        success: function (data) {
+                            alert("Returned: " + data);
+                        },
+                        error: function (xhr, ajaxOptions, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                });
+            });
+
+
+            //getAjax('', function (data) {                    
+            //    div.innerHTML = data;
+            //});
+
+            //postAjax("http://localhost:54118/api/CidmsResponse", "{TicketNumber: 10, AcceptChanges: true, Comments: \"APPROVED\"}", function (data) {
+            //    alert(data);
+            //});
+
+        </script>
+    </body>
+</html>

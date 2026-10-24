@@ -1,0 +1,36 @@
+.columns {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-top: -0.75rem;
+}
+
+.column {
+  display: block;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 0.75rem;
+}
+
+.column.is-one-third {
+  flex: none;
+  width: 33.3333%;
+}
+
+@media screen and (min-width: 769px), print {
+  .columns {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+/* @media screen and (min-width: 450px) {
+  .container {
+    --fontsize: 50px;
+  }
+} */

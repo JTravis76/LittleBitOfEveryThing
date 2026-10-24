@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Friendly Table</title>
+    <style>
+      body {
+        font-family: "Open Sans", sans-serif;
+      }
+      th,
+      td {
+        background: #eee;
+        padding: 8px;
+      }
+
+      @media screen and (max-width: 600px) {
+        table.table-mobile {
+          width: 100%;
+
+          & thead {
+            display: none;
+          }
+
+          & tr,
+          & td {
+            border-bottom: 1px solid #ddd;
+          }
+
+          & tr {
+            margin-bottom: 8px;
+          }
+
+          & td {
+            display: flex;
+          }
+        }
+
+        table td::before {
+          content: attr(label);
+          font-weight: bold;
+          width: 120px;
+          min-width: 120px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <table class="table-mobile">
+      <thead>
+        <tr>
+          <th>Account</th>
+          <th>Due Date</th>
+          <th>Amount</th>
+          <th>Period</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Visa - 3412</td>
+          <td>04/01/2016</td>
+          <td>$1,190</td>
+          <td>03/01/2016 - 03/31/2016</td>
+        </tr>
+        <tr>
+          <td>Visa - 6076</td>
+          <td>03/01/2016</td>
+          <td>$2,443</td>
+          <td>02/01/2016 - 02/29/2016</td>
+        </tr>
+        <tr>
+          <td>Corporate AMEX</td>
+          <td>03/01/2016</td>
+          <td>$1,181</td>
+          <td>02/01/2016 - 02/29/2016</td>
+        </tr>
+        <tr>
+          <td>Visa - 3412</td>
+          <td>02/01/2016</td>
+          <td>$842</td>
+          <td>01/01/2016 - 01/31/2016</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      window.setMobileTable = function (selector) {
+        // if (window.innerWidth > 600) return false;
+        const tableEl = document.querySelector(selector);
+        const thEls = tableEl.querySelectorAll("thead th");
+        const tdLabels = Array.from(thEls).map((el) => el.innerText);
+        tableEl.querySelectorAll("tbody tr").forEach((tr) => {
+          Array.from(tr.children).forEach((td, ndx) =>
+            td.setAttribute("label", tdLabels[ndx])
+          );
+        });
+      };
+
+      setMobileTable(".table-mobile");
+    </script>
+  </body>
+</html>

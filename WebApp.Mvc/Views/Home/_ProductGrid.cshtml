@@ -1,0 +1,49 @@
+﻿@model WebApp.Mvc.Models.ProductPagination
+
+<div class="pull-right">
+    @Html.TextBox("txt-search", Model.Search, new { @class = "form-control", @placeholder = "Search..." })
+
+    @Html.DropDownList("ddl-page-size", new SelectList(
+    new List<Object>{
+       new { value = "25" , text = "25"  },
+       new { value = "50" , text = "50" },
+       new { value = "100" , text = "100" }
+    },
+    "value",
+    "text",
+    Model.PageSize), 
+    new { @class = "form-control", @onchange = "OnPageSize_Changed();", @style = "width:auto;" })
+</div>
+<div>
+    @Helper.Pagination(Model.PageIndex, Model.PageCount, Url.Content("~/Home/Pagination"), $"&search={Model.Search}&pagesize={Model.PageSize}")
+</div>
+<div class="clearfix"></div>
+<div class="table-responsive">
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <td><label>Product Name</label></td>
+                <td><label>Color</label></td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Products.Count > 0)
+            {
+                foreach (var row in Model.Products)
+                {
+                    <tr>
+                        <td>@row.Name</td>
+                        <td>@row.Color</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>No Records Found...</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,116 @@
+export interface DifferOptions {
+  /**
+   * Whether to detect circular reference in source objects before diff starts. Default
+   * is `true`. If you are confident for your data (e.g. from `JSON.parse` or an API
+   * response), you can set it to `false` to improve performance, but the algorithm may
+   * not stop if circular reference does show up.
+   */
+  detectCircular?: boolean;
+  /**
+   * Max depth, default `Infinity` means no depth limit.
+   */
+  maxDepth?: number;
+  /**
+   * Support recognizing modifications, default `true` means the differ will output the
+   * `* modified` sign apart from the basic `+ add` and `- remove` sign. If you prefer
+   * Git output, please set it to `false`.
+   */
+  showModifications?: boolean;
+  /**
+   * The way to diff arrays, default is `"normal"`.
+   *
+   * For example, if we got 2 arrays: `a =[1, 2, 3]` and `b = [2, 3, 1, 4, 0]`, and the
+   * `showModifications` is set to `true`.
+   *
+   * When using `normal`, the differ will compare the items in the same index one by one.
+   * The time complexity is faster (`O(LEN)`). The output will be:
+   *
+   * ```text
+   *   a b
+   * * 1 2
+   * * 2 3
+   * * 3 1
+   * +   4
+   * +   0
+   * ```
+   *
+   * When using `lcs`, the differ will perform the LCS (Longest Common Subsequence) algorithm,
+   * assuming the items in the subsequence are unchanged. The time complexity for LCS is
+   * slower (`O(LEN^2)`). The output will be:
+   *
+   * ```text
+   *   a b
+   * - 1
+   *   2 2
+   *   3 3
+   * +   1
+   * +   4
+   * +   0
+   * ```
+   *
+   * When using `unorder-normal`, the differ will first sort 2 arrays, then act like `normal`.
+   * The output will be:
+   *
+   * ```text
+   *   a b
+   * * 1 0
+   * * 2 1
+   * * 3 2
+   * * 4 3
+   * +   4
+   * ```
+   *
+   * When using `unorder-lcs`, the differ will first sort 2 arrays, then act like `lcs`.
+   * The output will be:
+   *
+   * ```text
+   *   a b
+   * +   0
+   *   1 1
+   *   2 2
+   *   3 3
+   * +   4
+   * ```
+   */
+  arrayDiffMethod?: 'normal' | 'lcs' | 'unorder-normal' | 'unorder-lcs';
+  /**
+   * Whether to ignore the case when comparing strings, default `false`.
+   */
+  ignoreCase?: boolean;
+  /**
+   * Whether to use recursive equal to compare objects, default `false`.
+   *
+   * This will only applied to objects, not arrays.
+   *
+   * Two objects are considered equal if they have the same properties and values, for example:
+   *
+   * ```js
+   * const x = { 'a': 1, 'b': 2 };
+   * const y = { 'b': 2, 'a': 1 };
+   * ```
+   *
+   * The `x` and `y` here will be considered equal.
+   *
+   * This comparation process is slow in huge objects.
+  */
+  recursiveEqual?: boolean;
+}
+export interface DiffResult {
+  level: number;
+  type: 'modify' | 'add' | 'remove' | 'equal';
+  text: string;
+  comma?: boolean;
+  lineNumber?: number;
+}
+export declare type ArrayDiffFunc = (arrLeft: any[], arrRight: any[], keyLeft: string, keyRight: string, level: number, options: DifferOptions, ...args: any[]) => [DiffResult[], DiffResult[]];
+export default class Differ {
+  private options;
+  private arrayDiffFunc;
+  constructor({ detectCircular, maxDepth, showModifications, arrayDiffMethod, recursiveEqual, }?: DifferOptions);
+  private detectCircular;
+  private sortResultLines;
+  private calculateLineNumbers;
+  private calculateCommas;
+  diff(sourceLeft: any, sourceRight: any): readonly [DiffResult[], DiffResult[]];
+}
+//export default Differ;

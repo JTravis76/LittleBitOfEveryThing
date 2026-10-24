@@ -1,0 +1,101 @@
+@import "./bootstrap-grid.min.css";
+@import "./_layout.css";
+@import "./_panel.css";
+@import "./_about_me.css";
+@import "./_resume.css";
+@import "./_binary-clock.css";
+@import "./_gameboard.css";
+@import "./_metronome.css";
+@import "./_toggle-switch.css";
+@import "./_floating-window.css";
+@import "./_pinterest-grid.css";
+@import "./_progress-bar.css";
+@import "./_bubble-tip.css";
+@import "./_drag-drop.css";
+@import "./_sortable-table.css";
+@import "./_fish-tank.css";
+@import "./_component-book.css";
+@import "./_accordion.css";
+@import "./_dialog.css";
+@import "./_searchable-dropdown.css";
+@import "./_file-uploader.css";
+
+:root {
+  --purple1: #5d6b99;
+  --purple2: #40508d;
+  --purple3: #ccd5f0;
+  --panel-color1: #f5cc85;
+  --primary-font-color: #1e1e1e;
+  --white: #ffffff;
+  --white1: #e9eeff;
+  --black: #000000;
+  --family1: sans-serif;
+
+  --color--primary: #5d6b99;
+  --color--black: #000000;
+  --color--white: #ffffff;
+  --color--gray1: #f1f1f1;
+  --color--gray2: #d3d3d3;
+  --color--gray3: #808080;
+  --color--gray4: #4a4750;
+}
+
+body {
+  margin: 0;
+  background-color: var(--purple1);
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-ellipsis {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+button.btn-icon {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+/*== Bulma styles ==*/
+.columns {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-top: -0.75rem;
+}
+
+.column {
+  display: block;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 0.75rem;
+}
+
+.column.is-one-third {
+  flex: none;
+  width: 33.3333%;
+}
+
+@media screen and (min-width: 769px), print {
+  .columns {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+/* @media screen and (min-width: 450px) {
+  .container {
+    --fontsize: 50px;
+  }
+} */

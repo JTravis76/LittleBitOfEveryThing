@@ -1,0 +1,18 @@
+.file-uploader {
+  font-size: 1.25rem;
+  background-color: #c8dadf;
+  position: relative;
+  padding: 100px 20px;
+
+  outline: 2px dashed #92b0b3;
+  outline-offset: -10px;
+  transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear;
+
+  &[data-active="true"] {
+    background-color: #9ed5e4;
+  }
+}
+
+.box__input {
+  text-align: center;
+}

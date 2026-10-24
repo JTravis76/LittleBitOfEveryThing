@@ -1,0 +1,11 @@
+.gameboard {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;
+}
+
+.gameboard .cell {
+  border: 1px solid var(--black);
+  width: 100%;
+  /* padding-top: 100%; 1:1 ratio */
+  padding-top: 75%; /* 4:3 ratio */
+}

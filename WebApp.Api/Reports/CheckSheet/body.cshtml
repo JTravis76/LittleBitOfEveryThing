@@ -1,0 +1,146 @@
+﻿@model WebApp.Api.Models.CheckSheetReport
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            table thead tr td {
+                font-weight: bold;
+            }
+
+            table.table-bordered thead tr td {
+                border-spacing: 0px;
+                border-bottom: 0.5px solid black;
+                padding: 0px;
+            }
+
+            table.table-striped tr:nth-child(even) {
+                background-color: #f1f1f1;
+            }
+
+            table tbody tr td {
+                padding: 8px 4px 8px 4px;
+            }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-soften {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <table class='table-bordered table-striped'>
+        <!-- <thead>
+            <tr>
+                <td></td>
+                <td>CONTAINER</td>
+                <td>XFER</td>
+                <td>MC</td>
+                <td>TARE</td>
+                <td>GROSS</td>
+                <td>GROSS NOW</td>
+                <td>NET</td>
+                <td>U CONC</td>
+                <td>ASSAY</td>
+                <td>NEW CONC</td>
+                <td>NEW ASSAY</td>
+            </tr>
+        </thead> -->
+        @* <tbody>
+            @if (Model.Containers != null && Model.Containers.Count() > 0)
+            {
+                int cnt = 1;
+                foreach (var container in Model.Containers)
+                {
+                    <tr>
+                        <td style="width:3%">@cnt.</td>
+                        <td style="width:8%">_____ @container.CONTAINER_ID</td>
+                        <td style="width:4%">@container.TRANSFER</td>
+                        <td style="width:3%">__ @container.CODE</td>
+                        <td style="width:5%">
+                            @if (container.TARE == 0.000m)
+                            {
+                                <label class="text-soften">@container.TARE.ToString()</label>
+                            }
+                            else
+                            {
+                                @container.TARE.ToString()
+                            }
+                        </td>
+                        <td style="width:4.5%">
+                            @if (container.GROSS == 0.000m)
+                            {
+                                <label class="text-soften">@container.GROSS.ToString()</label>
+                            }
+                            else
+                            {
+                                @container.GROSS.ToString()
+                            }
+                        </td>
+                        <td style="width:5.5%">__________</td>
+                        <td style="width:4%">
+                            @{
+                                var net = (container.GROSS - container.TARE);
+                                @if (net == 0.000m)
+                                {
+                                    <label class="text-soften">@net.ToString()</label>
+                                }
+                                else
+                                {
+                                    @net.ToString()
+                                }
+                            }
+                        </td>
+                        <td style="width:4%">
+                            @if (container.GRAMSU == 0.000m)
+                            {
+                                <label class="text-soften">@container.GRAMSU.ToString()</label>
+                            }
+                            else
+                            {
+                                @container.GRAMSU.ToString()
+                            }
+                        </td>
+                        <td style="width:4%">
+                            @if (container.CASSAY == 0.000m)
+                            {
+                                <label class="text-soften">@container.CASSAY.ToString()</label>
+                            }
+                            else
+                            {
+                                @container.CASSAY.ToString()
+                            }
+                            @if (container.STATUS)
+                            {
+                                <text> F</text>
+                            }
+                            else
+                            {
+                                <text> E</text>
+                            }
+                        </td>
+                        <td style="width:6%">__________</td>
+                        <td style="width:6%">__________</td>
+                    </tr>
+                    cnt += 1;
+                }
+            }
+            else
+            {
+                <tr><td colspan="9">No Records Found...</td></tr>
+            }
+        </tbody> *@
+    </table>
+</body>
+</html>

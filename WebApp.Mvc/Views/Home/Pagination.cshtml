@@ -1,0 +1,98 @@
+﻿@model WebApp.Mvc.Models.ProductPagination
+
+@{
+    ViewBag.Title = "Pagination";
+}
+<h4></h4>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h4>@ViewBag.Title</h4></div>
+        <div class="panel-body">
+
+            <div id="div-product-grid">
+                @{ Html.RenderPartial("_ProductGrid", Model ); }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        /*== Click event for Pagination anchor tags ==*/
+        $(document).on('click', 'ul.pagination > li > a', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr("href"),
+	            type: "POST",
+	            cache: false,
+	            async: true,
+                beforeSend: function () {
+                    //Could start a GIF animation here
+                },
+	            complete: function () { },
+	            success: function (data) {
+                    $('#div-product-grid').html(data);
+	            },
+	            error: function (xhr, ajaxOptions, error) {
+                        alert(xhr.status);
+	            }
+            });
+        });
+
+        /* Click event for submitting a search */
+        $(document).on('keyup', '#txt-search', function (e) {
+            let textSearch = $(this).val();
+            let pageSize = $(document).find('#ddl-page-size').val();
+
+            if (e.keyCode == 13) {
+                $.ajax({
+                    url: '/Home/Pagination',
+                    type: "POST",
+                    cache: false,
+                    async: true,
+                    data: { search: textSearch, pagesize: pageSize },
+                    beforeSend: function () {
+                        //Could start a GIF animation here
+                    },
+                    complete: function () { },
+                    success: function (data) {
+                        $('#div-product-grid').html(data);
+                    },
+                    error: function (xhr, ajaxOptions, error) {
+                        alert(xhr.status);
+                    }
+                });
+            }
+        });
+    });
+
+    /**
+     * Update viewable record count of table
+     */
+    function OnPageSize_Changed() {
+        let pageSize = $('#ddl-page-size').val();
+        let textSearch = $('#txt-search').val();
+
+        $.ajax({
+            url: '/Home/Pagination',
+            type: "POST",
+            cache: false,
+            async: true,
+            data: { pagesize: pageSize, search: textSearch },
+            beforeSend: function () {
+                //Could start a GIF animation here
+            },
+            complete: function () { },
+            success: function (data) {
+                $('#div-product-grid').html(data);
+            },
+            error: function (xhr, ajaxOptions, error) {
+                alert(xhr.status);
+            }
+        });            
+    }
+    
+</script>

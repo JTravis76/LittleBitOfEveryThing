@@ -1,0 +1,47 @@
+// https://miyauchi.dev/posts/vite-vue3-typescript/
+// https://eslint.vuejs.org/user-guide/#usage
+{
+  "root": true,
+  "env": {
+    "browser": true, // browser global variables
+    "es2021": true, // adds all ECMAScript 2021 globals and automatically sets the ecmaVersion parser option to 12.
+    "node": true,
+    "jest": false
+  },
+  "parser": "",
+  "plugins": ["@typescript-eslint", "vue"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/vue3-recommended",
+    "@vue/typescript/recommended",
+    "@vue/prettier"
+  ],
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module",
+    // "ecmaVersion": 2020
+    // "ecmaVersion": 2021
+    "ecmaVersion": 13
+  },
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "quotes": ["error", "double"],
+    "vue/no-v-html": "off"
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "public",
+    "src/lib/vue-multiple-progress@1.6.0",
+    "src/lib/vue-select@3.10.8",
+    "src/lib/v-tooltip@2.1.3"
+  ],
+  "overrides": [
+    {
+      "files": ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
+      "env": {
+        "jest": false
+      }
+    }
+  ]
+}

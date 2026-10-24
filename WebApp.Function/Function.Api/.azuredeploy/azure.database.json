@@ -1,0 +1,43 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "type": "string"
+    },
+    "dbServerName": {
+      "type": "string"
+    },
+    "dbTier": {
+      "type": "string"
+    },
+    "dbSkuName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "environment": "[toLower(parameters('environment'))]",
+    "location": "[resourceGroup().location]",
+    "dbName": "[format('lsa-{0}', parameters('environment'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Sql/servers/databases",
+      "apiVersion": "2021-02-01-preview",
+      "location": "[variables('location')]",
+      "name": "[format('{0}/{1}', parameters('dbServerName'), variables('dbName'))]",
+      "properties": {
+      },
+      "sku": {
+        "name": "[parameters('dbSkuName')]",
+        "tier": "[parameters('dbTier')]"
+      }
+    }
+  ],
+  "outputs": {
+    "dbName": {
+      "type": "string",
+      "value": "[variables('dbName')]"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+﻿@model WebApp.Api.Models.CheckSheetReport
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table thead tr td {
+            font-weight: bold;
+        }
+
+        table.table-bordered thead tr td {
+            border-spacing: 0px;
+            border-bottom: 0.5px solid black;
+            padding: 0px;
+        }
+
+        table.table-striped tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        table tbody tr td {
+            padding: 4px;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .text-soften {
+        color: gray;
+    }
+</style>
+
+<div class='text-center'>PRELIMINARY INVENTORY FOR ROOM @Model.Room</div>
+<table>
+    <tbody>
+        <tr>
+            <td>
+                @DateTime.Now.ToString("MMM. yyyy").ToUpper()
+            </td>
+            <td class='text-right'>@DateTime.Now.ToString()</td>
+        </tr>
+    </tbody>
+</table>
+<table class='table-bordered table-striped'>
+    <thead>
+        <tr>
+            <td style="width:3%"></td>
+            <td style="width:8%">CONTAINER</td>
+            <td style="width:4%">XFER</td>
+            <td style="width:3%">MC</td>
+            <td style="width:5%">TARE</td>
+            <td style="width:4.5%">GROSS</td>
+            <td style="width:5.5%">GROSS NOW</td>
+            <td style="width:4%">NET</td>
+            <td style="width:4%">U CONC</td>
+            <td style="width:4%">ASSAY</td>
+            <td style="width:6%">NEW CONC</td>
+            <td style="width:6%">NEW ASSAY</td>
+        </tr>
+    </thead>
+</table>

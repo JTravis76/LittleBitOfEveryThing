@@ -1,0 +1,30 @@
+.json-diff-viewer.json-diff-viewer-theme-monokai {
+  background: #272822;
+  color: #f8f8f2;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai .line-number {
+  color: #999999;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai tr:hover {
+  background: #3e3d32;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai tr .line-add {
+  background: #004400;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai tr .line-remove {
+  background: #440000;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai tr .line-modify {
+  background: #444400;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai .string {
+  color: #e6db74;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai .number,
+.json-diff-viewer.json-diff-viewer-theme-monokai .boolean,
+.json-diff-viewer.json-diff-viewer-theme-monokai .null {
+  color: #ae81ff;
+}
+.json-diff-viewer.json-diff-viewer-theme-monokai .key {
+  color: #f92672;
+}

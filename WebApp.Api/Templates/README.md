@@ -1,0 +1,1 @@
+All templates in this folder should use [DotLiquid](http://dotliquidmarkup.org).

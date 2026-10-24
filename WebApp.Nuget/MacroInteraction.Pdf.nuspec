@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MacroInteraction.Pdf</id>
+    <version>1.0.0</version>
+    <title>Macro Interaction</title>
+    <authors>Jeremy Travis</authors>
+    <description>Package Description</description>
+	<copyright>Copyright © MacroInteraction 2018-present</copyright>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <dependencies>
+      <group targetFramework="netstandard2.1"></group>
+	</dependencies>
+  </metadata>
+  <files>
+    <file src="../MacroInteraction.Pdf\bin\Release\netstandard2.1\MacroInteraction.Pdf.dll" target="lib\netstandard2.1\MacroInteraction.Pdf.dll" />
+  </files>
+</package>

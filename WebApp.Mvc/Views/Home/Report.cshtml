@@ -1,0 +1,96 @@
+﻿@model WebApp.Mvc.Models.Product
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <title>Report 1</title>
+    <style>
+        /* NOT SUPPORTED: 
+            border-spacing:2px; padding:2px;
+        */
+        span.header { font-size:16px; }
+        span.bold { font-weight:bold; }
+        table { width:100%;  }
+        table td { border: 0px solid black; }
+        table tr.header { font-weight: bold; }
+        table tr.header td { border-bottom:1px solid black; }
+        table.condensed { font-size:12px; }
+
+        hr.red {color:red; height:2px; }
+    </style>
+</head>
+<body>
+    <span class="header bold">NDA1700001 (13328)</span>
+    <hr class="red"/>
+    IsDouble = 0 <br />
+    gross items = 1 <br />
+    net items = 1 <br />
+    NumTurnovers = 1 <br />
+    Num Items Turnovered = 1 <br />
+    Still need measured = 0 <br />
+    <hr />
+    <b>TURNOVERS</b>
+    <table class="condensed" cellpadding="2" cellspacing="2">
+        <tr class="header">
+            <td>ID</td>
+            <td>TECH</td>
+            <td>DATE</td>
+            <td>ITEMS</td>
+            <td>REMEAS</td>
+            <td>DELETED</td>
+            <td>STAT/DET</td>
+        </tr>
+        <tr>
+            <td>009585</td>
+            <td>Walker,Chad</td>
+            <td>2016-10-03</td>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>HPGe</td>
+        </tr>
+    </table>
+    <hr />
+    <b>LOG ENTRIES</b>
+    <table class="condensed" cellpadding="2" cellspacing="2">
+        <tr class="header">
+            <td>DATE</td>
+            <td>LOG ENTRY</td>
+        </tr>
+        <tr>
+            <td>2016-10-03</td>
+            <td>Approved HASA #012</td>
+        </tr>
+        <tr>
+            <td>2016-10-03</td>
+            <td>Job Added HPGe measurement of pipe in HASA</td>
+        </tr>
+        <tr>
+            <td>2016-10-03</td>
+            <td>Save Turnover items 1</td>
+        </tr>
+        <tr>
+            <td>2016-10-03 </td>
+            <td>FOS approve Job Replicate 72822</td>
+        </tr>
+        <tr>
+            <td>2016-10-03</td>
+            <td>Batch Added FBP-HPGe492B-1700001</td>
+        </tr>
+        <tr>
+            <td>2016-10-17</td>
+            <td>Batch FBP-HPGe492B-1700001 marked DONE</td>
+        </tr>
+        <tr>
+            <td>2016-10-17</td>
+            <td>Uploader Is Finished</td>
+        </tr>
+        <tr>
+            <td>2016-10-19</td>
+            <td>PM Approves</td>
+        </tr>
+    </table>
+</body>
+</html>
+

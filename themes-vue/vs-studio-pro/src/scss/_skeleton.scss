@@ -1,0 +1,20 @@
+// == Skeleton Loading == //
+.skeleton {
+  opacity: 0.7;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton-text {
+  height: 16px;
+  margin: 4px 0;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}

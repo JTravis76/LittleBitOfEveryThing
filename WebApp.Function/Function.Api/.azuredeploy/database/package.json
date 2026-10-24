@@ -1,0 +1,15 @@
+{
+  "name": "migrations",
+  "version": "1.0.0",
+  "description": "does the database migrations for this project",
+  "main": "index.js",
+  "scripts": {
+    "migrate": ".\\node_modules\\flywaydb-cli\\bin\\flyway -X -configFiles=config/base.conf,config/environment.conf migrate",
+    "repair": ".\\node_modules\\flywaydb-cli\\bin\\flyway -X -configFiles=config/base.conf,config/environment.conf repair"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "flywaydb-cli": "^0.8.3"
+  }
+}

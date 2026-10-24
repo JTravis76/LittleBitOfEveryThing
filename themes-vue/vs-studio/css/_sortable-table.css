@@ -1,0 +1,43 @@
+table.sortable-table {
+  width: 100%;
+  background-color: white;
+  position: relative;
+
+  & thead tr th {
+    border-bottom: 1px solid;
+    text-transform: capitalize;
+    user-select: none;
+  }
+
+  & tbody tr:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+
+  & tbody tr:nth-child(even) {
+    background-color: white;
+  }
+
+  & tbody tr.is-dragging {
+    background: #f1c40f;
+  }
+
+  & tbody tr.is-dragging td {
+    color: #ffe683;
+  }
+}
+
+.draggable-table__drag {
+  font-size: 0.95em;
+  font-weight: lighter;
+  text-transform: capitalize;
+  position: absolute;
+  width: 100%;
+  text-indent: 50px;
+  border: 1px solid #f1f1f1;
+  z-index: 10;
+  cursor: grabbing;
+  -webkit-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.05);
+
+  opacity: 1;
+}

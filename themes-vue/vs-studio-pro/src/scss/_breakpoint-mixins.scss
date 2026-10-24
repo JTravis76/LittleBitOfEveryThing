@@ -1,0 +1,92 @@
+@import "variables";
+
+// Extra small devices.
+@mixin xs {
+    @media screen and (max-width: #{$breakpoint-xs-max}) {
+        @content;
+    }
+}
+
+// Small devices
+@mixin sm {
+    @media screen and (min-width: #{$breakpoint-sm-min}) and (max-width: #{$breakpoint-sm-max}) {
+        @content;
+    }
+}
+
+// Medium devices
+@mixin md {
+    @media screen and (min-width: #{$breakpoint-md-min}) and (max-width: #{$breakpoint-md-max}) {
+        @content;
+    }
+}
+
+// Large devices
+@mixin lg {
+    @media screen and (min-width: #{$breakpoint-lg-min}) and (max-width: #{$breakpoint-lg-max}) {
+        @content;
+    }
+}
+
+// Extra large devices
+@mixin xl {
+    @media screen and (min-width: #{$breakpoint-xl-min}) and (max-width: #{$breakpoint-xl-max}) {
+        @content;
+    }
+}
+
+// Less than small.
+@mixin lt-sm {
+    @media screen and (max-width: #{$breakpoint-xs-max}) {
+        @content;
+    }
+}
+
+// Less than medium.
+@mixin lt-md {
+    @media screen and (max-width: #{$breakpoint-sm-max}) {
+        @content;
+    }
+}
+
+// Less than large.
+@mixin lt-lg {
+    @media screen and (max-width: #{$breakpoint-md-max}) {
+        @content;
+    }
+}
+
+// Less than extra large.
+@mixin lt-xl {
+    @media screen and (max-width: #{$breakpoint-lg-max}) {
+        @content;
+    }
+}
+
+// Greater than extra small.
+@mixin gt-xs {
+    @media screen and (min-width: #{$breakpoint-sm-min}) {
+        @content;
+    }
+}
+
+// Greater than small.
+@mixin gt-sm {
+    @media screen and (min-width: #{$breakpoint-md-min}) {
+        @content;
+    }
+}
+
+// Greater than medium.
+@mixin gt-md {
+    @media screen and (min-width: #{$breakpoint-lg-min}) {
+        @content;
+    }
+}
+
+// Greater than large.
+@mixin gt-lg {
+    @media screen and (min-width: #{$breakpoint-xl-min}) {
+        @content;
+    }
+}

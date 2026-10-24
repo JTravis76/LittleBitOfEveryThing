@@ -1,0 +1,61 @@
+.app-metronome {
+  background-color: var(--black);
+  height: 100%;
+}
+
+.app-metronome .header {
+  background-color: lightblue;
+  padding: 10px;
+  font-weight: bold;
+}
+.app-metronome .main {
+  color: var(--white);
+  height: calc(100vh - 276px);
+}
+.app-metronome .main .beat {
+  height: 48px;
+  width: 48px;
+  font-size: 48px;
+  line-height: 0.9;
+  text-align: center;
+  border: 1px solid lightblue;
+}
+.app-metronome .footer {
+  background-color: lightblue;
+  height: 100px;
+  padding: 10px;
+}
+.app-metronome .footer button {
+  background-color: transparent;
+  cursor: pointer;
+}
+.app-metronome .chord-letter {
+  font-size: 48px;
+}
+.app-metronome .four-four {
+  width: 244px;
+}
+.app-metronome .three-four {
+  width: 194px;
+}
+.app-metronome .text-bold {
+  font-weight: bold;
+}
+.app-metronome .center-center {
+  height: 80%;
+  display: flex;
+  justify-content: center; /**/
+  align-items: center;
+
+  flex-direction: column;
+  overflow-x: auto;
+}
+.app-metronome .d-flex {
+  display: flex;
+}
+.app-metronome .flex-wrap {
+  flex-wrap: wrap;
+}
+.app-metronome .justify-center {
+  justify-content: center;
+}

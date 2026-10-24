@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MacroInteraction.Security</id>
+    <version>1.0.0</version>
+    <title>Macro Interaction</title>
+    <authors>Jeremy Travis</authors>
+    <description>Package Description</description>
+	<copyright>Copyright © MacroInteraction 2018-present</copyright>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <dependencies>
+      <group targetFramework="netstandard2.1">
+        <dependency id="Microsoft.IdentityModel.Tokens" version="6.25.0" exclude="Build,Analyzers" />
+        <dependency id="System.IdentityModel.Tokens.Jwt" version="6.25.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\MacroInteraction.Security\bin\Debug\netstandard2.1\MacroInteraction.Security.dll" target="lib\netstandard2.1\MacroInteraction.Security.dll" />
+    <file src="..\MacroInteraction.Security\bin\Debug\netstandard2.1\MacroInteraction.Security.pdb" target="lib\netstandard2.1\MacroInteraction.Security.pdb" />
+  </files>
+</package>

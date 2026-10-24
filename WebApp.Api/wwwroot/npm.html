@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NPM Server</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" integrity="sha512-oc9+XSs1H243/FRN9Rw62Fn8EtxjEYWHXRvjS43YtueEewbS6ObfXcJNyohjHqVKFPoXXUxwc+q1K7Dee6vv9g==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/site.css" />
+</head>
+<body>
+    <div id="app" v-cloak>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#" @click.prevent="Reset">
+                <img src="./img/npm-30.png" height="30" alt="" loading="lazy">
+            </a> <h1> <small>Server <span>{{version}}</span></small></h1>
+        </nav>
+        <div id="spinner"></div>
+        <button type="button" class="secret-btn" @click="RefreshDB">..</button>
+        <div class="container">
+            <div style="margin-top:25px;">
+                <h2 style="text-align:center;">Let's Build Something Awesome!!</h2>
+                <search></search>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/marked.js"></script>
+    <script defer type="module" src="./js/npm.js"></script>
+    <script nomodule>
+        document.write('<h3 style="color:red;">!! Sorry, your browser doesn\'t support Ecma Script modules. Please use a modern browser.</h3>');
+    </script>
+    <script>
+        function ShowSpinner(active = true) {
+            let spinner = document.getElementById("spinner");
+            if (active)
+                spinner.className = "show";
+            else
+                spinner.className = "";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+﻿@using WebApp.Mvc.Extensions
+@{
+    ViewBag.Title = "Dashboard - ChartJS";
+}
+
+
+<style type="text/css">
+    .temp1 {
+        border: 1px solid lightgray;
+        border-radius: 0px 0px 4px 4px;
+        width: 150px;
+        height: auto;
+    }
+
+    .temp2 {
+        width: 100%;
+        border-bottom: 1px solid lightgray;
+        font-weight: 800;
+        background-color: #f1eeee;
+        padding-left: 4px;
+    }
+
+    .temp3 {
+        padding: 0px 4px 0px 4px;
+    }
+
+    .temp4 {
+        color: lightgray;
+        cursor: pointer;
+    }
+
+        .temp4:hover {
+            color: black;
+            cursor: pointer;
+        }
+
+    .checkbox_container {
+        color: silver;
+    }
+</style>
+
+<div class="well">
+    <h2>@ViewBag.Title<small> powered by AdventureWorks</small></h2>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="temp1">
+                        <div class="temp2">
+                            Year
+                            <div style="text-align:right; float:right;">
+                                <span id="clear-year" title="Clear all" class="glyphicon glyphicon-erase temp4"></span>
+                            </div>
+                        </div>
+                        <div class="temp3" style="height:200px;overflow-x:auto;">
+                            @Html.CheckBoxList("cbl-year", (IEnumerable<SelectListItem>)ViewData["Years"], new { @class = "cb" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-md-12">
+
+                    <div class="temp1">
+                        <div class="temp2">
+                            Products
+                            <div style="text-align:right; float:right;">
+                                <span id="clear-products" title="Clear all" class="glyphicon glyphicon-erase temp4"></span>
+                            </div>
+                        </div>
+                        <div class="temp3">
+                            <div class="temp3" style="height:200px; overflow:auto; white-space:nowrap;">
+                                @*@Html.CheckBoxList("cbl-products", (IEnumerable<SelectListItem>)ViewData["Products"], new { @class = "cb" })*@
+
+                                @{
+                                    List<CheckBoxListItem> items = new List<CheckBoxListItem> {
+                                        new CheckBoxListItem { Text="some amazing long product", Value = "myVal", Checked = true }
+                                    };
+
+                                    @Html.CheckBoxList("Products", items, new { @class = "myClass" });
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+    <div id="divCharts" class="col-md-10">
+        @{Html.RenderPartial("_Charts"); }
+    </div>
+</div>
+
+@*<script src="~/Scripts/chartjs/Chart.bundle.min.js"></script>*@
+<script>
+    $(document).ready(function () {
+
+        /*== upon click, set checkbox label color to default
+        * if selected, change label color */
+        $('.cb').click(function () {
+            //set to silver as default
+            $('label[for="' + this.id + '"]').css("color", "silver");
+            $.each($("input:checked"), function () {
+                $('label[for="' + this.id + '"]').css("color", "black");
+            });
+            UpdateChart();
+        });
+
+        //change color of all selected checkbox label
+        //remove selected checkbox
+        //refresh chart
+        $('#clear-year').click(function () {
+            $.each($("input:checked"), function () {
+                $('label[for="' + this.id + '"]').css("color", "silver");
+            });
+            $('#div-cbl-year').children().prop("checked", false);
+            UpdateChart();
+        });
+
+        //change color of all selected checkbox label
+        //remove selected checkbox
+        //refresh chart
+        $('#clear-products').click(function () {
+            $.each($("input:checked"), function () {
+                $('label[for="' + this.id + '"]').css("color", "silver");
+            });
+            $('#div-cbl-products').children().prop("checked", false);
+
+            UpdateChart();
+        });
+
+        function UpdateChart() {
+            //this will post entire form
+            var data = $('form').serialize();
+
+            $.ajax({
+                url: '@Url.Action("UpdateDashboard", "Home")',
+                type: "POST",
+                cache: false,
+                async: true,
+                data: data,
+                beforeSend: function () { },
+                complete: function () { },
+                success: function (data) {
+                    $('#divCharts').html(data);
+                },
+                error: function (e) {
+                    alert("An error has occured!!!");
+                }
+            });
+        }
+
+    });
+</script>

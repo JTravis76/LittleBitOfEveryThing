@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+
+@*
+    Draws a Bootstrap Pagination
+    Usages: @Helper.Pagination(Model.PageIndex, Model.PageCount, Url.Content("~/Home/Index"), "&search=${someVar}&param2=${someVar}")
+*@
+@helper Pagination(double PageIndex = 1, int TotalPages = 1, string url = "/Home/Index", string param = "&search=")
+{
+TotalPages = TotalPages == 0 ? 1 : TotalPages;
+double MaxNofPages = 5;
+double start = 1;
+double end = TotalPages;
+
+if (TotalPages > MaxNofPages)
+{
+    double middle = Math.Ceiling(MaxNofPages / 2) - 1;
+    double below = (PageIndex - middle);
+    double above = (PageIndex + middle);
+
+    if (below < 2)
+    {
+        above = MaxNofPages;
+        below = 1;
+    }
+    else if (above > (TotalPages - 2))
+    {
+        above = TotalPages;
+        below = (TotalPages - MaxNofPages + 1);
+    }
+    start = below;
+    end = above;
+}
+
+<ul class="pagination pagination-sm">
+    @*First Page*@
+    @if (PageIndex != 1)
+    {
+        <li><a href="@url?page=@(PageIndex - 1)@param">«</a></li>
+    }
+
+    @if (start > 1)
+    {
+        <li><a href="@url?page=1@param">1</a></li>
+
+        if (start > 3)
+        {
+            <li><a href="@url?page=2@param">2</a></li>
+        }
+        if (start > 2)
+        {
+            <li class="disabled"><a href="#">...</a></li>
+        }
+    }
+
+    @for (var i = start; i <= end; i++)
+    {
+        if (i == PageIndex || (PageIndex <= 0 && i == 1))
+        {
+            <li class="active"><a href="#">@i.ToString()</a></li>
+        }
+        else
+        {
+            <li><a href="@url?page=@i.ToString()@param">@i.ToString()</a></li>
+        }
+    }
+
+    @if (end < TotalPages)
+    {
+        if (end < TotalPages - 1)
+        {
+            <li class="disabled"><a href="#">...</a></li>
+        }
+        if (end < TotalPages - 2)
+        {
+            <li><a href="@url?page=@TotalPages.ToString()@param">@TotalPages.ToString()</a></li>
+        }
+    }
+
+    @*Last page*@
+    @if (PageIndex != TotalPages)
+    {
+        <li><a href="@url?page=@(PageIndex + 1)@param">»</a></li>
+    }
+</ul>
+}
+

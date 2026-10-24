@@ -1,0 +1,87 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site1.master.vb" Inherits="WorkOrder.Site1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link type="text/css" rel="stylesheet" href="css/style.css" media="all" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <table style="height:100%; width:100%; border-spacing:0px; border-collapse:collapse;">
+            <tr>
+                <td class="bgleft" style="width:15px;">
+                </td>
+            
+                <td class="header" style="vertical-align:top;" >
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <img alt="logo" src="img/logo.png" style="height: 67px; width: 55px" />    
+                            </td>
+                            <td style="text-align:right;">                         
+                                <asp:Label ID="lblLoginName" runat="server"></asp:Label>                            
+                                &nbsp;
+                                <asp:LinkButton ID="btnLogout" runat="server" Visible="False" 
+                                    CausesValidation="False">Logout</asp:LinkButton>
+
+                                <br />
+                                Session expires in: 
+                                <asp:Label ID="lblSessionTime" runat="server" Text=""></asp:Label>
+                                minutes
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2>Haverhill Work Orders</h2>
+
+                    <table style="width: 100%">
+                        <tr>
+                            <td class="content">
+                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                </asp:ContentPlaceHolder>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td class="bgright" style="width:15px;">
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+    <script type="text/javascript" >
+        // and here's the trick (works everywhere):
+        // Javascript version of jquery.ready()
+        r(function () {
+            //alert('DOM Ready!');
+            DisplaySessionTimeout();
+        });
+        function r(f) { /in/.test(document.readyState) ? setTimeout('r(' + f + ')', 9) : f() }
+
+        //Session Timeout Widget
+        var sessionTimeout = "<%= Session.Timeout %>";
+        function DisplaySessionTimeout() {
+            document.getElementById("<%= lblSessionTime.ClientID %>").innerText = sessionTimeout;
+
+            sessionTimeout = sessionTimeout - 1;
+
+            //if session is not less than 0
+            if (sessionTimeout >= 0)
+                //call the funcation again after 60 mins delay
+                window.setTimeout("DisplaySessionTimeout()", 60000);
+            else {
+                window.location.href = '/login.aspx';
+            }
+        }
+    </script>
+
+</body>
+</html>

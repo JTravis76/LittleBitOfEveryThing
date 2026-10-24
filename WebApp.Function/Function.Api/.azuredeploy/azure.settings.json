@@ -1,0 +1,195 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "type": "string"
+    },
+    "functionAppName": {
+      "type": "string"
+    },
+    "slotName": {
+      "type": "string",
+      "defaultValue": "staging"
+    },
+    "releaseName": {
+      "type": "string",
+      "defaultValue": "Unknown",
+      "metadata": {
+        "description": "Passed in by the release pipeline for easy visibility in the portal"
+      }
+    },
+    "storageAccountName": {
+      "type": "string"
+    },
+    "appInsightsName": {
+      "type": "string"
+    },
+    "LogLevel": {
+      "type": "int",
+      "defaultValue": 1
+    },
+    "dbHost": {
+      "type": "string"
+    },
+    "dbName": {
+      "type": "string"
+    },
+    "dbUser": {
+      "type": "string"
+    },
+    "dbPass": {
+      "type": "string"
+    },
+    "defaultEmailFromAddress": {
+      "type": "string"
+    },
+    "defaultEmailFromName": {
+      "type": "string"
+    },
+    "sendGrid.apiKey": {
+      "type": "string"
+    },
+    "regex.Email": {
+      "type": "string",
+      "defaultValue": "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
+    },
+    "auth.clientId": {
+      "type": "string"
+    },
+    "auth.audiences": {
+      "type": "string"
+    },
+    "appPrefix": {
+      "type": "string"
+    },
+    "relay.name": {
+      "type": "string"
+    },
+    "relay.hybridConnection.api.name": {
+      "type": "string"
+    },
+    "relay.hybridConnection.token.name": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "relay.hybridConnection.api.resourceName": "[format('{0}/{1}', parameters('relay.name'), parameters('relay.hybridConnection.api.name'))]",
+    "relay.hybridConnection.api.resourceId": "[resourceId('Microsoft.Relay/Namespaces/Hybridconnections', parameters('relay.name'), parameters('relay.hybridConnection.api.name'))]",
+    "relay.hybridConnection.token.resourceName": "[format('{0}/{1}', parameters('relay.name'), parameters('relay.hybridConnection.token.name'))]",
+    "relay.hybridConnection.token.resourceId": "[resourceId('Microsoft.Relay/Namespaces/Hybridconnections', parameters('relay.name'), parameters('relay.hybridConnection.token.name'))]",
+    "auth.properties": {
+      "globalValidation": {
+        "requireAuthentication": true,
+        "unauthenticatedClientAction": "Return401",
+        "excludedPaths":  [
+          "/api/HealthCheck"
+        ]
+      },
+      "identityProviders": {
+        "azureActiveDirectory": {
+          "enabled": true,
+          "registration": {
+            "clientId": "[parameters('auth.clientId')]"
+          },
+          "validation": {
+            "allowedAudiences": "[json(parameters('auth.audiences'))]"
+          }
+        }
+      }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2020-09-01",
+      "type": "Microsoft.Web/sites/slots/config",
+      "metadata": {
+        "comments": "These are the configurations that get swapped during a slot swap, with the exception of any properties that end in _EXTENSION_VERSION. Those must be specified manually, once, in the portal."
+      },
+      "name": "[concat(parameters('functionAppName'), '/staging/appsettings')]",
+      "properties": {
+        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2019-06-01').keys[0].value)]",
+        "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('microsoft.insights/components/', parameters('appInsightsName')), '2020-02-02-preview').InstrumentationKey]",
+        "ReleaseName": "[parameters('releaseName')]",
+        "DBConnectionString": "[format('Server=tcp:{0},1433;Initial Catalog={1};User ID={2};Password={3};', parameters('dbHost'), parameters('dbName'), parameters('dbUser'), parameters('dbPass'))]",
+        "DefaultEmailFromAddress": "[parameters('defaultEmailFromAddress')]",
+        "DefaultEmailFromName": "[parameters('defaultEmailFromName')]",
+        "SendGrid.ApiKey": "[parameters('sendGrid.apiKey')]",
+        "Regex.Email":  "[parameters('regex.email')]"
+      }
+    },
+    {
+      "name": "[concat(parameters('functionAppName'), '/authsettingsV2')]",
+      "type": "Microsoft.Web/sites/config",
+      "metadata": {
+        "comments": "This is used to set up JWT authentication and the allowed audiences for the base site"
+      },
+      "apiVersion": "2020-12-01",
+      "properties": "[variables('auth.properties')]"
+    },
+    {
+      "name": "[concat(parameters('functionAppName'), '/staging/authsettingsV2')]",
+      "type": "Microsoft.Web/sites/slots/config",
+      "metadata": {
+        "comments": "This is used to set up JWT authentication and the allowed audiences for the staging slot"
+      },
+      "apiVersion": "2020-12-01",
+      "properties": "[variables('auth.properties')]"
+    },
+    {
+      "type": "Microsoft.Relay/namespaces",
+      "apiVersion": "2021-11-01",
+      "name": "[parameters('relay.name')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Relay/namespaces/AuthorizationRules",
+      "apiVersion": "2021-11-01",
+      "name": "[format('{0}/RootManageSharedAccessKey', parameters('relay.name'))]",
+      "location": "East US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Relay/namespaces', parameters('relay.name'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Listen",
+          "Manage",
+          "Send"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Relay/namespaces/hybridConnections/authorizationRules",
+      "apiVersion": "2021-11-01",
+      "name": "[format('{0}/defaultSender', variables('relay.hybridConnection.api.resourceName'))]",
+      "location": "East US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Relay/namespaces/hybridConnections', parameters('relay.name'), parameters('relay.hybridConnection.api.name'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Send"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Relay/namespaces/hybridConnections/authorizationRules",
+      "apiVersion": "2021-11-01",
+      "name": "[format('{0}/defaultSender', variables('relay.hybridConnection.token.resourceName'))]",
+      "location": "East US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Relay/namespaces/hybridConnections', parameters('relay.name'), parameters('relay.hybridConnection.token.name'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Send"
+        ]
+      }
+    },
+  ]
+}

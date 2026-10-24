@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="IIS Express CORS Module" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft Corproration" UpgradeCode="5071999c-d8a9-4f93-8634-e41f6d79121f">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64" />
+    <UIRef Id="WixUI_InstallDir1"/>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="IIS Express CORS Modules" Level="1">
+      <ComponentGroupRef Id="CMPGRP_1" />
+      <ComponentGroupRef Id="CMPGRP_2" />
+      <ComponentGroupRef Id="CMPGRP_3" />
+      <ComponentGroupRef Id="CMPGRP_4" />
+      <ComponentGroupRef Id="CMPGRP_5" />
+      <ComponentGroupRef Id="CMPGRP_6" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="IIS Express">
+
+          <Directory Id="Config" Name="config">
+            <Directory Id="Schema" Name="schema" />
+            <Directory Id="Templates" Name="templates">
+              <Directory Id="PersonalWebServer" Name="PersonalWebServer" />
+            </Directory>
+          </Directory>
+
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER64" Name="IIS Express">
+          
+          <Directory Id="Config64" Name="config">
+            <Directory Id="Schema64" Name="schema" />
+            <Directory Id="Templates64" Name="templates">
+              <Directory Id="PersonalWebServer64" Name="PersonalWebServer" />
+            </Directory>
+          </Directory>
+
+        </Directory>
+      </Directory>
+
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="CMPGRP_1" Directory="INSTALLFOLDER">
+      <Component Id="CMP_CORSLicense" Guid="13dba778-4372-4215-bde5-1b1f7a0400ea" >
+        <File Id="FILE_CORSLicense" Name="cors_license.rtf" Source="$(var.SolutionDir)\IISExpCORS\Resources\cors_license.rtf" KeyPath="yes"></File>
+      </Component>
+      <Component Id="CMP_CORSReadme" Guid="0d13aa25-6624-4c20-99eb-0ae025094ae2" >
+        <File Id="FILE_CORSReadme" Name="cors_readme.htm" Source="$(var.SolutionDir)\IISExpCORS\Resources\cors_readme.htm" KeyPath="yes"></File>
+      </Component>
+      <Component Id="CMP_CORSMod" Guid="0c9190c0-b68e-402b-96cf-6d674a8ab4db" >
+        <File Id="FILE_CORSMod" Name="iiscors.dll" Source="$(var.SolutionDir)\IISExpCORS\Resources\iiscors-32.dll" KeyPath="yes"></File>
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CMPGRP_2" Directory="Schema">
+      <Component Id="CMP_CORSSchema" Guid="16d7b04b-4ce9-4ac6-82ca-42d19f937018" >
+        <File Id="FILE_CORSSchema" Name="cors_schema.xml" Source="$(var.SolutionDir)\IISExpCORS\Resources\cors_schema.xml" KeyPath="yes"></File>
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CMPGRP_3" Directory="PersonalWebServer">
+      <Component Id="CMP_AppHost" Guid="0cc261ed-fc96-468a-83a9-23413db0aa7e" Permanent="yes" >
+        <File Id="FILE_AppHost" Name="applicationhost.config" Source="$(var.SolutionDir)\IISExpCORS\Resources\applicationhost.config" KeyPath="no" ></File>
+      </Component>
+    </ComponentGroup>
+    
+    <!-- 64 bit section -->
+
+    <ComponentGroup Id="CMPGRP_4" Directory="INSTALLFOLDER64">
+      <Component Id="CMP_CORSLicense64" Guid="7c9d403c-a3a8-432b-b18f-afefd109e64d" Win64="yes" >
+        <File Id="FILE_CORSLicense64" Name="cors_license.rtf" Source="$(var.SolutionDir)\IISExpCORS\Resources\cors_license.rtf" KeyPath="yes"></File>
+      </Component>
+      <Component Id="CMP_CORSReadme64" Guid="5559b7e9-1dfd-4c28-9182-d53af9ed3006" Win64="yes" >
+        <File Id="FILE_CORSReadme64" Name="cors_readme.htm" Source="$(var.SolutionDir)\IISExpCORS\Resources\cors_readme.htm" KeyPath="yes"></File>
+      </Component>
+      <Component Id="CMP_CORSMod64" Guid="4fdd7bb3-c2c6-4b61-88b0-30df7595c2b7" Permanent="yes" Win64="yes" >
+        <File Id="FILE_CORSMod64" Name="iiscors.dll" Source="$(var.SolutionDir)\IISExpCORS\Resources\iiscors.dll" KeyPath="yes"></File>
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CMPGRP_5" Directory="Schema64">
+      <Component Id="CMP_CORSSchema64" Guid="5a539b1f-61c2-486e-8c31-e897d5483ac6" Win64="yes" >
+        <File Id="FILE_CORSSchema64" Name="cors_schema.xml" Source="$(var.SolutionDir)\IISExpCORS\Resources\cors_schema.xml" KeyPath="yes"></File>
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="CMPGRP_6" Directory="PersonalWebServer64">
+      <Component Id="CMP_AppHos64t" Guid="e0078636-399f-48bd-bf1d-3deef9d1756d" Permanent="yes" Win64="yes" >
+        <File Id="FILE_AppHost64" Name="applicationhost.config" Source="$(var.SolutionDir)\IISExpCORS\Resources\applicationhost.config" KeyPath="no" ></File>
+      </Component>
+    </ComponentGroup>
+
+  </Fragment>
+</Wix>

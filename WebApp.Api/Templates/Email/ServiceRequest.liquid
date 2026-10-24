@@ -1,0 +1,26 @@
+<html>
+  <body>
+    <div>
+      <p>
+        <div><label>Reporter: </label><b>{{ ReportedByName }}</b></div>
+        <div><label>Issue Number: </label><b>{{ TicketId }}</b></div>
+        <div><label>Date created: </label><b>{{ ReportDate }} </b></div>
+      </p>
+      {{ Description }}
+      <div style="padding: 10px;">
+        <a href="{{ ApproveLink }}" target="_blank" style="padding: 10px; margin: 10px; display: inline-block; width: 70px; text-align: center; text-decoration: none; border: 1px solid green; background-color: lightgreen; color: green;">
+          Approve
+        </a>
+        <a href="{{ RejectLink }}" target="_blank" style="padding: 10px; margin: 10px; display: inline-block; width: 70px; text-align: center; text-decoration: none; border: 1px solid red; background-color: mistyrose; color: red;">
+          Reject
+        </a>
+      </div>
+      <p>
+        ACME Company
+        <br />
+        123 Main St. Pittsburgh, PA 15219
+        <br />
+      </p>
+    </div>
+  </body>
+</html>

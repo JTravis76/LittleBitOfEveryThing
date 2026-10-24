@@ -1,0 +1,92 @@
+﻿[v-cloak] {
+    display: none;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+h1 > small > span {
+    font-size: 14px;
+    color: darkgray;
+}
+
+.list-group > button {
+    background-color: black;
+    color: limegreen;
+    border: 1px dotted limegreen !important;
+}
+
+    .list-group > button:hover {
+        color: white;
+        background-color: #28a745;
+    }
+
+.secret-btn {
+    background-color: transparent;
+    border: none;
+}
+
+#spinner {
+    display: none; /*TODO: spinner is cause some strange screen flicker. hiding for now. */
+    visibility: hidden;
+    width: 80px;
+    height: 80px;
+    border: 2px solid #f3f3f3;
+    border-top: 3px solid #f25a41;
+    border-radius: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#spinner.show {
+    visibility: visible;
+}
+
+.command {
+    border: 1px dotted gray;
+    padding: 4px 6px;
+    background-color: #f1f1f1;
+    color: #28a745;
+}
+
+.markdown blockquote {
+    background: #efefef;
+    padding: 1px 16px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-left: #28a745 solid 10px;
+    border-radius: 3px;
+    color: black;
+}
+
+.form-group > label {
+    color: gray;
+}
+
+table > tbody > tr {
+    color: #28a745;
+}
+
+#txt-search {
+    background-color: black;
+    color: white;
+    border: 1px solid limegreen;
+}
+

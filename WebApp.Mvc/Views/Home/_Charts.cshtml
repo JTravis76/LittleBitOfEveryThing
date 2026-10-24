@@ -1,0 +1,18 @@
+﻿@using WebApp.Mvc.Extensions;
+@using WebApp.Utilities.ChartJS
+<div class="row">
+    <div class="col-md-6">
+        @Html.ChartJS("Chart1", (BarChart)ViewData["Chart1"])
+    </div>
+    <div class="col-md-6">
+        @Html.ChartJS("Chart2", (PieChart)ViewData["Chart2"])
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        @Html.ChartJS("Chart3", (PolarAreaChart)ViewData["Chart3"])
+    </div>
+    <div class="col-md-6">
+        @Html.ChartJS("Chart4", (LineChart)ViewData["Chart4"])
+    </div>
+</div>

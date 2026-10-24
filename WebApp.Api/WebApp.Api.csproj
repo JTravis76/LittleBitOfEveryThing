@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Version>1.0.0.0</Version>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommonMark.NET" Version="0.15.1" />
+		<PackageReference Include="DotLiquid" Version="2.2.656" />
+		<PackageReference Include="EntityGraphQL" Version="0.66.2" />
+		<PackageReference Include="GoogleAuthenticator" Version="3.1.1" />
+		<PackageReference Include="LinqKit.Core" Version="1.2.4" />
+		<PackageReference Include="MacroInteraction.Pdf" Version="1.0.0" />
+		<PackageReference Include="MacroInteraction.Security" Version="1.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.23" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.26" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.22" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.22" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<!-- Must use this version !! Use to genereate PDF reports from HTML/Razor template -->
+		<PackageReference Include="RazorLight" Version="2.0.0-beta1" />
+		<!-- Smart Card Signature -->
+		<PackageReference Include="itext7" Version="7.1.13" />
+		<PackageReference Include="NativeLibraryManager" Version="1.0.23" />
+    <!-- ADO SQL stuff -->
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+		<PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="NPM-Packages\test-package\" />
+		<Folder Include="Templates\Email\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\scss\**\*.*" CopyToPublishDirectory="Never" />
+		<Content Update="wwwroot\typings\**\*.*" CopyToPublishDirectory="Never" />
+		<Content Update="wwwroot\tsconfig.json" CopyToPublishDirectory="Never" />
+		<Content Update="Reports\A630\body.cshtml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="Reports\A630\header.cshtml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<None Update="Templates\Email\ServiceRequest.liquid">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+	</ItemGroup>
+
+	<Target Name="CopyReports" AfterTargets="Publish">
+		<Copy SourceFiles="Reports\A630\body.cshtml" DestinationFolder="$(PublishDir)\Reports\A630" />
+		<Copy SourceFiles="Reports\A630\header.cshtml" DestinationFolder="$(PublishDir)\Reports\A630" />
+	</Target>
+
+</Project>

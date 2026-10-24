@@ -1,0 +1,5 @@
+nuget pack C:\Users\jtravis\repos\JT-Toolbox\MacroInteraction.Security.nuspec -OutputDirectory C:\Users\Jtravis\Desktop\LocalNuget
+
+nuget pack C:\Users\jtravis\repos\JT-Toolbox\MacroInteraction.Pdf.nuspec -OutputDirectory C:\Users\Jtravis\Desktop\LocalNuget
+
+nuget pack C:\Users\jtravis\repos\JT-Toolbox\MacroInteraction.Picker.nuspec -OutputDirectory C:\Users\Jtravis\Desktop\LocalNuget

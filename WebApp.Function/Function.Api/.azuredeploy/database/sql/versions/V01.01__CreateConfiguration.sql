@@ -1,0 +1,15 @@
+IF NOT EXISTS (
+	SELECT 1 FROM INFORMATION_SCHEMA.TABLES
+	WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Configuration'
+)
+BEGIN
+	CREATE TABLE dbo.Configuration (
+		Id BIGINT NOT NULL IDENTITY
+			CONSTRAINT PK_Configuration PRIMARY KEY,
+		Name VARCHAR(64) NOT NULL
+            CONSTRAINT AK_ConfigurationName UNIQUE(Name),
+        ConfigValue VARCHAR(64) NOT NULL,
+        DisplayName VARCHAR(64) NOT NULL
+	);
+END
+GO

@@ -1,0 +1,104 @@
+.panel {
+  border: none;
+  width: 250px;
+  font-size: 12px;
+  font-family: var(--family1);
+}
+
+.panel .panel-title {
+  background-color: var(--panel-color1);
+  padding: 4px;
+  font-size: 12px;
+}
+
+.panel .panel-toolbar {
+  background-color: var(--purple3);
+  padding: 4px;
+  height: 24px;
+  display: flex;
+}
+
+.panel .panel-toolbar .divider {
+  border-right: 2px solid var(--purple1);
+  height: 20px;
+  opacity: 0.5;
+}
+
+.panel .panel-toolbar .icon {
+  height: 16px;
+  width: 16px;
+  fill: var(--purple1);
+  padding: 2px;
+  margin: 0 4px;
+  opacity: 0.5;
+}
+
+.panel .panel-toolbar .icon.left {
+  transform: rotate(180deg);
+}
+
+.panel .panel-toolbar .icon.active {
+  fill: var(--black);
+  opacity: 1;
+}
+
+.panel .panel-body {
+  background-color: var(--white);
+  height: calc(100vh - 153px);
+  padding: 4px;
+}
+
+.panel .panel-body .icon-7 {
+  width: 7px;
+  height: 7px;
+}
+
+.panel .panel-body .icon-9 {
+  width: 9px;
+  height: 9px;
+  margin: 0 4px;
+}
+
+.panel .panel-body .icon-14 {
+  width: 14px;
+  height: 14px;
+  margin: 0 2px -3px 2px;
+}
+
+.panel ul {
+  list-style: none;
+  margin: 4px 0 2px -26px;
+}
+
+.panel ul li {
+  margin: 2px 0;
+}
+
+.panel ul li .menu-item {
+  color: var(--black);
+  text-decoration: none;
+}
+
+.panel .tabs {
+  overflow: hidden;
+}
+
+.panel .tabs .tab-item {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: var(--purple2);
+  color: var(--purple3);
+  font-size: 12px;
+  padding: 5px;
+}
+
+.panel .tabs .tab-item:hover {
+  background-color: var(--purple3);
+  color: var(--purple2);
+}
+
+.panel .tabs .tab-item.active {
+  background-color: var(--white);
+  color: var(--black);
+}

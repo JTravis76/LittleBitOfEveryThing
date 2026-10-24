@@ -1,0 +1,17 @@
+Dear <%DisplayName%>
+
+Your Network password will expire on <%PasswordExpiresInDays%>
+
+This message is a reminder that your password will be expiring soon.
+Please visit http://iforgot.domain.com to reset/update your password.
+
+Self-Service Password Portal requires the following items to complete the reset.
+•	Username
+•	Date of birth 
+•	Last 4-digit of SSN
+•	Cell phone number or non-company email to send verification PIN
+
+Any issue, contact your support department.
+
+Thank you,
+IT Department
