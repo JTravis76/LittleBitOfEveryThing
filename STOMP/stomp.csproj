@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Configurations>Debug;Release;</Configurations>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Apache.NMS" Version="2.2.0" />
+		<PackageReference Include="Apache.NMS.ActiveMQ" Version="2.1.1" />
+		<PackageReference Include="Apache.NMS.AMQP" Version="2.4.0" />
+		<PackageReference Include="ArtemisNetClient" Version="3.0.0" />
+		<PackageReference Include="SharpZipLib" Version="1.4.2" />
+		<PackageReference Include="Shtomper" Version="1.0.0.1" />
+		<PackageReference Include="Shtomper.Client.Websocket" Version="1.0.0" />
+		<PackageReference Include="Shtomper.Converter.NewtonsoftJson" Version="1.0.0" />
+	</ItemGroup>
+</Project>
