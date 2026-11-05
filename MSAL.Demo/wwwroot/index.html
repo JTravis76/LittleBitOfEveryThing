@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MSAL.js + Minimal API</title>
+    <script src="https://alcdn.msauth.net/browser/2.32.0/js/msal-browser.min.js"></script>
+    <!-- script src="msal-browser.min.js"></script -->
+    <style>
+        #forecast {
+            width:400px;
+        }
+        div.weather {
+            display: flex;
+            width: 100%;
+            background-color: cyan;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <button id="login">Login</button>
+    <button id="logout">Logout</button>
+    <button id="callApi">Get Weather</button>
+    <pre id="profile"></pre>
+    <div id="forecast">
+        <!--<div class="weather">
+            <div>2026-11-05</div>
+            <div>Cool</div>
+            <div>2 F</div>
+        </div>-->
+    </div>
+
+    <script>
+        // MSAL configuration
+        const msalConfig = {
+            auth: {
+                //clientId: "7ef79b44-be9f-4d55-b1cf-8b9691180fb4",
+                clientId: "1fc124c8-d623-45fb-aee9-d3757511304c", // Azure AD App Registration
+                authority: "https://login.microsoftonline.com/1f7267a8-8ec9-47d0-9fd3-eba939431cb4",
+                redirectUri: "https://localhost:5500/index.html" // Your frontend URL
+                //redirectUri: "https://localhost:5500/signin-oidc"
+            },
+            //cache: {
+            //    cacheLocation: "localStorage", // Store tokens in localStorage
+            //    storeAuthStateInCookie: false // Set true if issues with IE/Edge
+            //}
+        };
+
+        const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+        msalInstance.handleRedirectPromise()
+            .then((response) => {
+                if (response) {
+                    showProfile(response.account);
+                } else {
+                    const currentAccounts = msalInstance.getAllAccounts();
+                    if (currentAccounts.length > 0) {
+                        showProfile(currentAccounts[0]);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error("Redirect error:", error);
+            });
+
+        document.getElementById("login").onclick = async () => {
+            try {
+                const loginResponse = await msalInstance.loginRedirect({ //loginPopup loginRedirect
+                    //scopes: ["User.Read"]
+                    scopes: ["api://1fc124c8-d623-45fb-aee9-d3757511304c/access_as_user"]
+                });
+                console.log("Login successful:", loginResponse);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        document.getElementById("logout").onclick = () => {
+            const accounts = msalInstance.getAllAccounts();
+            if (accounts.length > 0) {
+                msalInstance.logoutRedirect({ account: accounts[0] });
+            }
+        };
+
+        document.getElementById("callApi").onclick = async () => {
+            try {
+                const account = msalInstance.getAllAccounts()[0];
+                const tokenResponse = await msalInstance.acquireTokenSilent({
+                    scopes: ["api://1fc124c8-d623-45fb-aee9-d3757511304c/access_as_user"],
+                    //scopes: ["api://7ef79b44-be9f-4d55-b1cf-8b9691180fb4"],
+                    account
+                });
+
+                const apiResponse = await fetch("https://localhost:5500/weatherforecast", {
+                    headers: {
+                        Authorization: `Bearer ${tokenResponse.accessToken}`
+                    }
+                });
+
+                //let data = [{ "date": "2026-11-05", "temperatureC": -17, "summary": "Cool", "temperatureF": 2 }, { "date": "2026-11-06", "temperatureC": -20, "summary": "Chilly", "temperatureF": -3 }];
+                let data = await apiResponse.json();
+                data.forEach((d) => {
+                    let div = document.createElement("div");
+                    div.classList = "weather";
+                    div.innerHTML = `<div>${d.date}</div><div>${d.summary}</div><div>${d.temperatureF} F</div>`;
+
+                    document.getElementById("forecast").appendChild(div);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        // Display profile info
+        function showProfile(account) {
+            document.getElementById("profile").textContent =
+                `Logged in as: ${account.username}\nName: ${account.name || "N/A"}`;
+        }
+    </script>
+</body>
+</html>

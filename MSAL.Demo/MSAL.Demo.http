@@ -1,0 +1,6 @@
+@msal_sample_HostAddress = http://localhost:5053
+
+GET {{msal_sample_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
